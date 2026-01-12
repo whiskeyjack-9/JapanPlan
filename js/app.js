@@ -399,9 +399,16 @@ function showSection(sectionId) {
 // MODAL HANDLING
 // ========================================
 
-function showModal(content) {
+function showModal(content, modalClass = '') {
     if (modalContent) modalContent.innerHTML = content;
-    if (modalOverlay) modalOverlay.classList.remove('hidden');
+    if (modalOverlay) {
+        modalOverlay.classList.remove('hidden');
+        // Add custom modal class if provided
+        const modal = modalOverlay.querySelector('.modal');
+        if (modal) {
+            modal.className = 'modal' + (modalClass ? ' ' + modalClass : '');
+        }
+    }
     document.body.style.overflow = 'hidden';
 }
 

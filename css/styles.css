@@ -148,6 +148,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    height: 100%;
 }
 
 body {
@@ -156,9 +157,12 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
+    height: 100%;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
 }
 
 /* Background Animations */
@@ -173,15 +177,13 @@ body {
 }
 
 .gradient-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
+    position: fixed;
+    inset: 0;
+    background:
         radial-gradient(ellipse at 20% 20%, rgba(255, 92, 141, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, rgba(176, 108, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(92, 225, 230, 0.05) 0%, transparent 70%);
+        radial-gradient(ellipse at 50% 50%, rgba(92, 225, 230, 0.05) 0%, transparent 70%),
+        var(--bg-primary);
     animation: gradientShift 20s ease-in-out infinite;
     pointer-events: none;
 }
@@ -193,11 +195,11 @@ body {
 /* Sakura tree branches - left side */
 .theme-sakura .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: -5%;
     width: 45%;
-    height: 100%;
+    height: 100vh;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 800' preserveAspectRatio='xMinYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='branch1' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%234a2040'/%3E%3Cstop offset='50%25' stop-color='%23382030'/%3E%3Cstop offset='100%25' stop-color='%232a1525'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branch1)' stroke-linecap='round'%3E%3C!-- Main trunk --%3E%3Cpath stroke-width='18' d='M-20 800 Q30 700 25 600 Q20 500 40 400 Q60 300 50 200'/%3E%3Cpath stroke-width='14' d='M25 600 Q60 550 80 480 Q100 420 130 360 Q160 300 180 240'/%3E%3Cpath stroke-width='10' d='M40 400 Q80 380 110 340 Q140 300 180 280 Q220 260 260 250'/%3E%3Cpath stroke-width='8' d='M80 480 Q120 500 160 480 Q200 460 250 470'/%3E%3Cpath stroke-width='6' d='M130 360 Q170 340 200 360 Q240 380 280 370'/%3E%3Cpath stroke-width='5' d='M180 280 Q210 260 250 280 Q290 300 330 290'/%3E%3Cpath stroke-width='4' d='M180 240 Q220 220 250 200 Q290 180 320 190'/%3E%3Cpath stroke-width='3' d='M50 200 Q90 180 120 150 Q150 120 190 130'/%3E%3Cpath stroke-width='3' d='M260 250 Q290 230 330 240'/%3E%3Cpath stroke-width='2' d='M250 470 Q280 490 320 480'/%3E%3Cpath stroke-width='2' d='M280 370 Q310 350 350 360'/%3E%3C/g%3E%3C!-- Blossoms on branches --%3E%3Cg fill='%23ff6b9d' opacity='0.6'%3E%3Ccircle cx='180' cy='240' r='8'/%3E%3Ccircle cx='195' cy='225' r='6'/%3E%3Ccircle cx='165' cy='250' r='5'/%3E%3Ccircle cx='260' cy='250' r='7'/%3E%3Ccircle cx='275' cy='235' r='5'/%3E%3Ccircle cx='330' cy='240' r='6'/%3E%3Ccircle cx='180' cy='280' r='6'/%3E%3Ccircle cx='250' cy='280' r='5'/%3E%3Ccircle cx='330' cy='290' r='7'/%3E%3Ccircle cx='280' cy='370' r='6'/%3E%3Ccircle cx='350' cy='360' r='5'/%3E%3Ccircle cx='250' cy='470' r='7'/%3E%3Ccircle cx='320' cy='480' r='5'/%3E%3Ccircle cx='130' cy='360' r='6'/%3E%3Ccircle cx='200' cy='360' r='5'/%3E%3Ccircle cx='120' cy='150' r='6'/%3E%3Ccircle cx='190' cy='130' r='5'/%3E%3Ccircle cx='50' cy='200' r='7'/%3E%3C/g%3E%3Cg fill='%23ffb3d0' opacity='0.5'%3E%3Ccircle cx='200' cy='210' r='4'/%3E%3Ccircle cx='240' cy='265' r='4'/%3E%3Ccircle cx='300' cy='255' r='3'/%3E%3Ccircle cx='210' cy='295' r='4'/%3E%3Ccircle cx='310' cy='380' r='4'/%3E%3Ccircle cx='290' cy='460' r='4'/%3E%3Ccircle cx='145' cy='345' r='3'/%3E%3Ccircle cx='100' cy='165' r='4'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
@@ -210,11 +212,11 @@ body {
 /* Sakura tree branches - right side */
 .theme-sakura .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: -5%;
     width: 40%;
-    height: 90%;
+    height: 90vh;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 700' preserveAspectRatio='xMaxYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='branch2' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23452040'/%3E%3Cstop offset='50%25' stop-color='%23351830'/%3E%3Cstop offset='100%25' stop-color='%23251020'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branch2)' stroke-linecap='round'%3E%3C!-- Main trunk from right --%3E%3Cpath stroke-width='15' d='M370 700 Q330 620 340 540 Q350 460 330 380 Q310 300 320 220'/%3E%3Cpath stroke-width='11' d='M340 540 Q300 510 270 450 Q240 390 200 340'/%3E%3Cpath stroke-width='8' d='M330 380 Q290 370 250 340 Q210 310 160 300'/%3E%3Cpath stroke-width='6' d='M270 450 Q230 470 180 460 Q130 450 90 470'/%3E%3Cpath stroke-width='5' d='M200 340 Q160 320 120 340 Q80 360 40 350'/%3E%3Cpath stroke-width='4' d='M250 340 Q220 310 170 290 Q130 275 90 280'/%3E%3Cpath stroke-width='3' d='M320 220 Q280 200 240 180 Q200 160 150 170'/%3E%3Cpath stroke-width='3' d='M160 300 Q120 280 80 290'/%3E%3Cpath stroke-width='2' d='M90 470 Q50 480 20 470'/%3E%3Cpath stroke-width='2' d='M40 350 Q10 340 -20 355'/%3E%3C/g%3E%3C!-- Blossoms on right branches --%3E%3Cg fill='%23ff6b9d' opacity='0.55'%3E%3Ccircle cx='320' cy='220' r='7'/%3E%3Ccircle cx='240' cy='180' r='6'/%3E%3Ccircle cx='150' cy='170' r='5'/%3E%3Ccircle cx='200' cy='340' r='6'/%3E%3Ccircle cx='120' cy='340' r='5'/%3E%3Ccircle cx='40' cy='350' r='6'/%3E%3Ccircle cx='160' cy='300' r='5'/%3E%3Ccircle cx='80' cy='290' r='6'/%3E%3Ccircle cx='270' cy='450' r='6'/%3E%3Ccircle cx='180' cy='460' r='5'/%3E%3Ccircle cx='90' cy='470' r='7'/%3E%3Ccircle cx='20' cy='470' r='5'/%3E%3Ccircle cx='250' cy='340' r='5'/%3E%3Ccircle cx='170' cy='290' r='6'/%3E%3Ccircle cx='90' cy='280' r='5'/%3E%3C/g%3E%3Cg fill='%23ffc0db' opacity='0.45'%3E%3Ccircle cx='300' cy='205' r='4'/%3E%3Ccircle cx='200' cy='165' r='3'/%3E%3Ccircle cx='150' cy='330' r='4'/%3E%3Ccircle cx='60' cy='360' r='3'/%3E%3Ccircle cx='220' cy='440' r='4'/%3E%3Ccircle cx='130' cy='475' r='3'/%3E%3Ccircle cx='50' cy='485' r='4'/%3E%3Ccircle cx='100' cy='305' r='3'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
@@ -798,9 +800,8 @@ body {
 
 /* Sakura Petals Animation */
 .sakura-petals {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
     pointer-events: none;
     display: none;
 }
@@ -850,12 +851,20 @@ body {
     width: 100%;
 }
 
+.landing-screen {
+    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    background: var(--bg-primary);
+}
+
 .landing-panel {
     position: relative;
     overflow: hidden;
 }
 
-/* Side Panels (Left & Right Images) */
+/* Side Panels (Left & Right Images) - kept for backwards compatibility */
 .landing-panel-left,
 .landing-panel-right {
     flex: 0 0 25%;
@@ -901,16 +910,14 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: var(--bg-primary);
-    z-index: 1;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 
 .landing-panel-center .bg-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
     z-index: 0;
     overflow: hidden;
 }

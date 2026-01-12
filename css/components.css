@@ -989,14 +989,30 @@ input[type="range"]::-moz-range-thumb {
     font-weight: 500;
 }
 
+/* Avatar Picker Modal - Larger size */
+.modal.avatar-picker-modal {
+    max-width: 700px;
+    width: 95%;
+}
+
+.avatar-picker-container {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.avatar-grid-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .avatar-picker-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-xl);
-    max-height: 300px;
-    overflow-y: auto;
-    padding: var(--spacing-sm);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    padding: var(--spacing-md);
+    flex: 1;
 }
 
 .avatar-option {
@@ -1010,6 +1026,8 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 150px;
+    min-height: 150px;
 }
 
 .avatar-option img {
@@ -1106,6 +1124,8 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     gap: var(--spacing-md);
     justify-content: center;
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
 }
 
 .avatar-picker-actions .btn-primary,
@@ -1119,6 +1139,55 @@ input[type="range"]::-moz-range-thumb {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+}
+
+/* Full Preview View */
+.avatar-full-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.avatar-full-image {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 4px solid var(--sakura-medium);
+    box-shadow: var(--shadow-glow-sakura);
+    margin-bottom: var(--spacing-xl);
+}
+
+.avatar-full-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-preview-actions {
+    display: flex;
+    gap: var(--spacing-lg);
+    width: 100%;
+    max-width: 400px;
+    justify-content: center;
+}
+
+.avatar-preview-actions .btn-secondary,
+.avatar-preview-actions .btn-primary {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.avatar-preview-actions .btn-secondary svg {
+    flex-shrink: 0;
     box-shadow: none;
 }
 
