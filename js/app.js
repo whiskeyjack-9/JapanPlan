@@ -248,22 +248,24 @@ function selectUser(userId) {
     userGrid.querySelectorAll('.user-card').forEach(card => {
         card.classList.remove('selected');
     });
-    
+
     // Find and select user
     const user = users.find(u => u.id === userId);
     if (!user) return;
-    
+
     currentUser = user;
-    
+
     // Update UI
     const card = userGrid.querySelector(`[data-user-id="${userId}"]`);
     if (card) {
         card.classList.add('selected');
     }
-    
-    // Show continue section
-    if (selectedUserName) selectedUserName.textContent = user.name;
-    if (continueSection) continueSection.classList.remove('hidden');
+
+    // Immediately show avatar picker
+    showAvatarPicker(currentUser.name, (avatarUrl) => {
+        localStorage.setItem('japan2026_currentUser', currentUser.id);
+        showApp();
+    });
 }
 
 function showApp() {

@@ -1236,6 +1236,13 @@ input[type="range"]::-moz-range-thumb {
     color: var(--sakura-light);
 }
 
+.avatar-no-options {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: var(--spacing-md);
+    font-style: italic;
+}
+
 /* ========================================
    RESPONSIVE ADJUSTMENTS
    ======================================== */

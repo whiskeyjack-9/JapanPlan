@@ -2,21 +2,7 @@
 // JAPAN 2026 - Avatar Picker Module
 // ========================================
 
-// Default avatar options (used when no custom avatars are generated)
-const DEFAULT_AVATAR_OPTIONS = [
-    { id: 'avatar-1', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Felix&backgroundColor=ffdfbf', name: 'Adventurer 1' },
-    { id: 'avatar-2', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka&backgroundColor=c0aede', name: 'Adventurer 2' },
-    { id: 'avatar-3', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Milo&backgroundColor=b6e3f4', name: 'Adventurer 3' },
-    { id: 'avatar-4', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Luna&backgroundColor=ffd5dc', name: 'Adventurer 4' },
-    { id: 'avatar-5', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Oliver&backgroundColor=d1f4d1', name: 'Adventurer 5' },
-    { id: 'avatar-6', url: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Coco&backgroundColor=ffe4b5', name: 'Adventurer 6' },
-    { id: 'avatar-7', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Felix&backgroundColor=ffdfbf', name: 'Style 1' },
-    { id: 'avatar-8', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aneka&backgroundColor=c0aede', name: 'Style 2' },
-    { id: 'avatar-9', url: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Milo&backgroundColor=b6e3f4', name: 'Style 3' },
-    { id: 'avatar-10', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=ffdfbf', name: 'Notion 1' },
-    { id: 'avatar-11', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Luna&backgroundColor=ffd5dc', name: 'Notion 2' },
-    { id: 'avatar-12', url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Oliver&backgroundColor=d1f4d1', name: 'Notion 3' },
-];
+// Default avatar options removed - only using custom generated avatars
 
 // Avatar style names (matching the generator utility - Japanese themed)
 const AVATAR_STYLE_NAMES = ['Ukiyo-e', 'Sakura Anime', 'Sumi-e Ink', 'Shrine Spirit', 'Neo Tokyo', 'Ghibli Dream'];
@@ -52,16 +38,6 @@ function showAvatarPicker(userName, callback) {
                             <span class="avatar-style-label">${AVATAR_STYLE_NAMES[index] || ''}</span>
                         </div>
                     `).join('')}
-                </div>
-            </div>
-            <div class="avatar-section">
-                <h3 class="avatar-section-title">Or Choose a Generic Avatar</h3>
-                <div class="avatar-picker-grid generic-grid">
-                    ${DEFAULT_AVATAR_OPTIONS.slice(0, 6).map(avatar => `
-                        <div class="avatar-option" data-avatar-url="${avatar.url}">
-                            <img src="${avatar.url}" alt="${avatar.name}">
-                        </div>
-                    `).join('')}
                     <!-- Upload custom option -->
                     <div class="avatar-option avatar-upload" id="avatarUploadBtn">
                         <div class="upload-icon">
@@ -78,25 +54,23 @@ function showAvatarPicker(userName, callback) {
             </div>
         `;
     } else {
-        // Show default avatar options
+        // No custom avatars available - show upload option only
         avatarOptionsHTML = `
-            <div class="avatar-picker-grid">
-                ${DEFAULT_AVATAR_OPTIONS.map(avatar => `
-                    <div class="avatar-option" data-avatar-url="${avatar.url}">
-                        <img src="${avatar.url}" alt="${avatar.name}">
+            <div class="avatar-section">
+                <p class="avatar-no-options">No avatars available yet. You can upload your own!</p>
+                <div class="avatar-picker-grid">
+                    <!-- Upload custom option -->
+                    <div class="avatar-option avatar-upload" id="avatarUploadBtn">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <span>Upload</span>
+                        <input type="file" id="avatarFileInput" accept="image/*" hidden>
                     </div>
-                `).join('')}
-                <!-- Upload custom option -->
-                <div class="avatar-option avatar-upload" id="avatarUploadBtn">
-                    <div class="upload-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="17 8 12 3 7 8"/>
-                            <line x1="12" y1="3" x2="12" y2="15"/>
-                        </svg>
-                    </div>
-                    <span>Upload</span>
-                    <input type="file" id="avatarFileInput" accept="image/*" hidden>
                 </div>
             </div>
         `;
