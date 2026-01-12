@@ -324,10 +324,14 @@ function applyTheme(themeId) {
     if (themeSelectLanding) themeSelectLanding.value = themeId;
     if (themeSelectNav) themeSelectNav.value = themeId;
 
-    // Toggle Sakura petals only on sakura theme
-    const petals = document.getElementById('sakuraPetals');
-    if (petals) {
-        petals.style.display = themeId === 'sakura' ? 'block' : 'none';
+    // Toggle Sakura petals for both landing and app containers
+    const landingPetals = document.getElementById('sakuraPetals');
+    const appPetals = document.getElementById('appSakuraPetals');
+    if (landingPetals) {
+        landingPetals.style.display = themeId === 'sakura' ? 'block' : 'none';
+    }
+    if (appPetals) {
+        appPetals.style.display = themeId === 'sakura' ? 'block' : 'none';
     }
 }
 
@@ -490,13 +494,22 @@ function getUserFromId(userId) {
 // ========================================
 
 function initSakuraPetals() {
-    const container = document.getElementById('sakuraPetals');
-    if (!container) return;
-    
     const petalCount = 20;
-    
-    for (let i = 0; i < petalCount; i++) {
-        createPetal(container, i);
+
+    // Initialize petals for landing page
+    const landingContainer = document.getElementById('sakuraPetals');
+    if (landingContainer) {
+        for (let i = 0; i < petalCount; i++) {
+            createPetal(landingContainer, i);
+        }
+    }
+
+    // Initialize petals for app container
+    const appContainer = document.getElementById('appSakuraPetals');
+    if (appContainer) {
+        for (let i = 0; i < petalCount; i++) {
+            createPetal(appContainer, i);
+        }
     }
 }
 
