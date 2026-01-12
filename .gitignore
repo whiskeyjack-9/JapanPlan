@@ -1,0 +1,24 @@
+# Environment files
+.env
+scripts/.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+tmpclaude-*
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Node (if applicable)
+node_modules/
