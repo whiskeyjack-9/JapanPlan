@@ -566,6 +566,208 @@ function unsubscribe(subscription) {
 }
 
 // ========================================
+// BUDGET PREFERENCES
+// ========================================
+
+async function getUserBudget(userId) {
+    if (!supabaseClient) {
+        // Demo mode - get from localStorage
+        const budgets = JSON.parse(localStorage.getItem('japan2026_budgets') || '[]');
+        return budgets.find(b => b.user_id === userId) || null;
+    }
+    
+    const { data, error } = await supabaseClient
+        .from('user_budgets')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+    
+    if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching user budget:', error);
+    }
+    return data;
+}
+
+async function getAllUserBudgets() {
+    if (!supabaseClient) {
+        // Demo mode - get from localStorage
+        return JSON.parse(localStorage.getItem('japan2026_budgets') || '[]');
+    }
+    
+    const { data, error } = await supabaseClient
+        .from('user_budgets')
+        .select('*');
+    
+    if (error) {
+        console.error('Error fetching all user budgets:', error);
+        return [];
+    }
+    return data || [];
+}
+
+async function saveUserBudget(userId, category, tier) {
+    if (!supabaseClient) {
+        // Demo mode - save to localStorage
+        let budgets = JSON.parse(localStorage.getItem('japan2026_budgets') || '[]');
+        let userBudget = budgets.find(b => b.user_id === userId);
+        
+        if (!userBudget) {
+            userBudget = { 
+                id: `demo-budget-${userId}`,
+                user_id: userId,
+                flight_tier: 'economy',
+                hotels_tier: 'budget',
+                food_tier: 'budget',
+                activities_tier: 'basic',
+                shopping_tier: 'minimal',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            };
+            budgets.push(userBudget);
+        }
+        
+        userBudget[`${category}_tier`] = tier;
+        userBudget.updated_at = new Date().toISOString();
+        
+        localStorage.setItem('japan2026_budgets', JSON.stringify(budgets));
+        return userBudget;
+    }
+    
+    // Check if record exists
+    const existing = await getUserBudget(userId);
+    
+    const budgetData = {
+        user_id: userId,
+        [`${category}_tier`]: tier,
+        updated_at: new Date().toISOString()
+    };
+    
+    if (existing) {
+        // Update
+        const { data, error } = await supabaseClient
+            .from('user_budgets')
+            .update(budgetData)
+            .eq('user_id', userId)
+            .select()
+            .single();
+        
+        if (error) {
+            console.error('Error updating user budget:', error);
+            return null;
+        }
+        return data;
+    } else {
+        // Insert with defaults
+        const newBudget = {
+            ...budgetData,
+            flight_tier: category === 'flight' ? tier : 'economy',
+            hotels_tier: category === 'hotels' ? tier : 'budget',
+            food_tier: category === 'food' ? tier : 'budget',
+            activities_tier: category === 'activities' ? tier : 'basic',
+            shopping_tier: category === 'shopping' ? tier : 'minimal'
+        };
+        
+        const { data, error } = await supabaseClient
+            .from('user_budgets')
+            .insert([newBudget])
+            .select()
+            .single();
+        
+        if (error) {
+            console.error('Error inserting user budget:', error);
+            return null;
+        }
+        return data;
+    }
+}
+
+async function saveAllBudgetTiers(userId, budgetData) {
+    console.log('saveAllBudgetTiers called with userId:', userId, 'data:', budgetData);
+    
+    if (!supabaseClient) {
+        // Demo mode - save to localStorage
+        let budgets = JSON.parse(localStorage.getItem('japan2026_budgets') || '[]');
+        console.log('Current budgets in localStorage:', budgets);
+        
+        let userBudgetIndex = budgets.findIndex(b => b.user_id === userId);
+        let userBudget;
+        
+        if (userBudgetIndex === -1) {
+            // Create new budget
+            userBudget = { 
+                id: `demo-budget-${userId}`,
+                user_id: userId,
+                flight_tier: budgetData.flight_tier,
+                hotels_tier: budgetData.hotels_tier,
+                food_tier: budgetData.food_tier,
+                activities_tier: budgetData.activities_tier,
+                shopping_tier: budgetData.shopping_tier,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            };
+            budgets.push(userBudget);
+        } else {
+            // Update existing budget
+            userBudget = budgets[userBudgetIndex];
+            userBudget.flight_tier = budgetData.flight_tier;
+            userBudget.hotels_tier = budgetData.hotels_tier;
+            userBudget.food_tier = budgetData.food_tier;
+            userBudget.activities_tier = budgetData.activities_tier;
+            userBudget.shopping_tier = budgetData.shopping_tier;
+            userBudget.updated_at = new Date().toISOString();
+            budgets[userBudgetIndex] = userBudget;
+        }
+        
+        localStorage.setItem('japan2026_budgets', JSON.stringify(budgets));
+        console.log('Budget saved to localStorage:', userBudget);
+        console.log('All budgets after save:', budgets);
+        return userBudget;
+    }
+    
+    // Check if record exists
+    const existing = await getUserBudget(userId);
+    
+    const fullBudgetData = {
+        user_id: userId,
+        flight_tier: budgetData.flight_tier,
+        hotels_tier: budgetData.hotels_tier,
+        food_tier: budgetData.food_tier,
+        activities_tier: budgetData.activities_tier,
+        shopping_tier: budgetData.shopping_tier,
+        updated_at: new Date().toISOString()
+    };
+    
+    if (existing) {
+        // Update
+        const { data, error } = await supabaseClient
+            .from('user_budgets')
+            .update(fullBudgetData)
+            .eq('user_id', userId)
+            .select()
+            .single();
+        
+        if (error) {
+            console.error('Error updating user budget:', error);
+            return null;
+        }
+        return data;
+    } else {
+        // Insert
+        const { data, error } = await supabaseClient
+            .from('user_budgets')
+            .insert([fullBudgetData])
+            .select()
+            .single();
+        
+        if (error) {
+            console.error('Error inserting user budget:', error);
+            return null;
+        }
+        return data;
+    }
+}
+
+// ========================================
 // SEED DATA INITIALIZATION
 // ========================================
 
@@ -576,63 +778,91 @@ async function initializeSeedData() {
     if (cities.length === 0) {
         console.log('Initializing seed data...');
         
-        // Seed cities
+        // Seed cities - based on Japan 40 Activities
         const seedCities = [
             {
                 name: 'Tokyo',
                 japanese_name: '東京',
-                description: 'Japan\'s bustling capital, mixing ultramodern and traditional. From neon-lit Shibuya to historic temples, Tokyo offers endless discovery.',
+                description: 'Japan\'s electric capital—world-class neighborhoods for food, fashion, nightlife, pop culture, and modern design.',
                 image_url: CITY_IMAGES['Tokyo'],
-                highlights: ['Shibuya Crossing', 'Senso-ji Temple', 'Akihabara', 'Shinjuku']
+                highlights: ['Shibuya', 'Senso-ji', 'Akihabara', 'Shinjuku', 'teamLab']
             },
             {
                 name: 'Kyoto',
                 japanese_name: '京都',
-                description: 'The cultural heart of Japan with over 2,000 temples and shrines. Experience geishas, zen gardens, and timeless traditions.',
+                description: 'Japan\'s cultural heart—temples, shrines, gardens, and traditional neighborhoods with timeless atmosphere.',
                 image_url: CITY_IMAGES['Kyoto'],
-                highlights: ['Fushimi Inari', 'Golden Pavilion', 'Bamboo Grove', 'Gion']
+                highlights: ['Fushimi Inari', 'Golden Pavilion', 'Arashiyama', 'Gion', 'Tea Ceremony']
             },
             {
                 name: 'Osaka',
                 japanese_name: '大阪',
-                description: 'Japan\'s kitchen and comedy capital. Known for street food, vibrant nightlife, and the friendly local culture.',
+                description: 'Japan\'s fun-loving food city—street eats, neon nights, and big-theme-park energy.',
                 image_url: CITY_IMAGES['Osaka'],
-                highlights: ['Dotonbori', 'Osaka Castle', 'Universal Studios', 'Street Food']
-            },
-            {
-                name: 'Hiroshima',
-                japanese_name: '広島',
-                description: 'A city of peace and resilience. Visit the moving Peace Memorial and take a day trip to beautiful Miyajima Island.',
-                image_url: CITY_IMAGES['Hiroshima'],
-                highlights: ['Peace Memorial', 'Miyajima Island', 'Itsukushima Shrine']
+                highlights: ['Dotonbori', 'Kuromon Market', 'Universal Studios', 'Osaka Castle']
             },
             {
                 name: 'Nara',
                 japanese_name: '奈良',
-                description: 'Ancient capital where friendly deer roam free. Home to some of Japan\'s oldest and most impressive temples.',
+                description: 'A compact, walkable temple city—famous for deer, grand religious sites, and relaxed green spaces.',
                 image_url: CITY_IMAGES['Nara'],
-                highlights: ['Deer Park', 'Todai-ji Temple', 'Kasuga Shrine']
+                highlights: ['Deer Park', 'Todaiji Buddha', 'Kasuga Shrine']
+            },
+            {
+                name: 'Miyajima',
+                japanese_name: '宮島',
+                description: 'A sacred island escape—shrine scenery, forested hikes, and postcard views across the bay.',
+                image_url: CITY_IMAGES['Miyajima'] || 'https://images.unsplash.com/photo-1505069190533-da1c9af13f7c?w=800&q=80',
+                highlights: ['Itsukushima Shrine', 'Mount Misen', 'Floating Torii']
             },
             {
                 name: 'Hakone',
                 japanese_name: '箱根',
-                description: 'Mountain resort town famous for hot springs, outdoor museums, and stunning views of Mount Fuji.',
+                description: 'Japan\'s most iconic landscape zone—Fuji views, volcanic terrain, lake cruises, and onsen relaxation.',
                 image_url: CITY_IMAGES['Hakone'],
-                highlights: ['Mt. Fuji Views', 'Onsen', 'Open-Air Museum', 'Lake Ashi']
-            },
-            {
-                name: 'Nikko',
-                japanese_name: '日光',
-                description: 'UNESCO World Heritage site with ornate shrines set in beautiful forests and mountains.',
-                image_url: CITY_IMAGES['Nikko'],
-                highlights: ['Toshogu Shrine', 'Kegon Falls', 'Nature Trails']
+                highlights: ['Mt. Fuji Views', 'Onsen Ryokan', 'Open-Air Museum', 'Scenic Loop']
             },
             {
                 name: 'Kanazawa',
                 japanese_name: '金沢',
-                description: 'Preserved Edo-era districts, beautiful gardens, and excellent seafood. Japan\'s best-kept secret.',
+                description: 'A refined "little Kyoto" vibe—gardens, preserved districts, and top-tier craft traditions.',
                 image_url: CITY_IMAGES['Kanazawa'],
-                highlights: ['Kenroku-en Garden', 'Samurai District', 'Geisha Districts']
+                highlights: ['Kenrokuen Garden', 'Historic Districts', 'Crafts']
+            },
+            {
+                name: 'Shirakawa-go',
+                japanese_name: '白川郷',
+                description: 'A UNESCO farmhouse village in the Japanese Alps—storybook roofs and rural scenery.',
+                image_url: CITY_IMAGES['Shirakawa-go'] || 'https://images.unsplash.com/photo-1522623349500-de37a56ea2a5?w=800&q=80',
+                highlights: ['Gassho-zukuri Houses', 'Mountain Views', 'Traditional Village']
+            },
+            {
+                name: 'Nikko',
+                japanese_name: '日光',
+                description: 'A shrine-and-nature destination north of Tokyo—ornate architecture set in forested mountains.',
+                image_url: CITY_IMAGES['Nikko'],
+                highlights: ['Toshogu Shrines', 'Cedar Paths', 'Waterfalls']
+            },
+            {
+                name: 'Koyasan',
+                japanese_name: '高野山',
+                description: 'A spiritual mountain town—temples, quiet forests, and one of Japan\'s most memorable cemeteries.',
+                image_url: CITY_IMAGES['Koyasan'] || 'https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80',
+                highlights: ['Temple Stay', 'Okunoin Cemetery', 'Shojin Ryori']
+            },
+            {
+                name: 'Naoshima',
+                japanese_name: '直島',
+                description: 'An art island in the Seto Inland Sea—architectural museums, outdoor sculptures, and coastal cycling.',
+                image_url: CITY_IMAGES['Naoshima'] || 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=800&q=80',
+                highlights: ['Art Museums', 'Yayoi Kusama Pumpkin', 'Island Cycling']
+            },
+            {
+                name: 'Okinawa',
+                japanese_name: '沖縄',
+                description: 'Japan\'s subtropical islands—beaches, coral reefs, relaxed pace, and a distinct local culture.',
+                image_url: CITY_IMAGES['Okinawa'] || 'https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=800&q=80',
+                highlights: ['Snorkeling', 'Beaches', 'Ryukyu Culture']
             }
         ];
         
@@ -660,40 +890,67 @@ async function initializeSeedData() {
     let attractions = await getAttractions();
     
     if (attractions.length === 0) {
+        // Seed attractions - based on Japan 40 Activities
         const seedAttractions = [
-            // Tokyo
-            { name: 'Shibuya Crossing', city_name: 'Tokyo', description: 'The world\'s busiest pedestrian crossing. Experience the organized chaos of thousands crossing at once.', image_url: ATTRACTION_IMAGES['Shibuya Crossing'] },
-            { name: 'Senso-ji Temple', city_name: 'Tokyo', description: 'Tokyo\'s oldest temple in Asakusa. Walk through the iconic Thunder Gate and Nakamise shopping street.', image_url: ATTRACTION_IMAGES['Senso-ji Temple'] },
-            { name: 'teamLab Borderless', city_name: 'Tokyo', description: 'Immersive digital art museum where you become part of the artwork. A must-see modern experience.', image_url: ATTRACTION_IMAGES['teamLab Borderless'] },
-            { name: 'Meiji Shrine', city_name: 'Tokyo', description: 'Serene Shinto shrine dedicated to Emperor Meiji, surrounded by a beautiful forest in the heart of the city.', image_url: ATTRACTION_IMAGES['Meiji Shrine'] },
-            { name: 'Akihabara', city_name: 'Tokyo', description: 'Electronics and anime paradise. Multi-story arcades, maid cafes, and endless otaku culture.', image_url: ATTRACTION_IMAGES['Akihabara'] },
-            { name: 'Shinjuku Golden Gai', city_name: 'Tokyo', description: 'Maze of tiny bars in narrow alleys. Unique nightlife experience with character-filled establishments.', image_url: ATTRACTION_IMAGES['Shinjuku Golden Gai'] },
-            { name: 'Ghibli Museum', city_name: 'Tokyo', description: 'Whimsical museum dedicated to Studio Ghibli. Tickets sell out fast - book months in advance!', image_url: ATTRACTION_IMAGES['Ghibli Museum'] },
+            // Tokyo (8 activities)
+            { name: 'Tokyo Shopping Districts', city_name: 'Tokyo', description: 'From Ginza luxury flagships to Shibuya streetwear and Harajuku–Omotesando style—Tokyo\'s retail zones feel like different worlds.', time_estimate: '3–8 hrs', image_url: ATTRACTION_IMAGES['Tokyo Shopping'] || 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&q=80' },
+            { name: 'Shibuya Scramble Crossing', city_name: 'Tokyo', description: 'Iconic crossing energy, Hachikō, towering screens, and endlessly browseable side streets.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Shibuya Crossing'] },
+            { name: 'Senso-ji and Nakamise Street', city_name: 'Tokyo', description: 'Old-Tokyo charm—lantern-lit temple gates and a classic snack-and-souvenir street approach.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Senso-ji Temple'] },
+            { name: 'Meiji Shrine and Yoyogi Park', city_name: 'Tokyo', description: 'A peaceful forested shrine precinct that feels miles away from the city—perfect reset between busy days.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Meiji Shrine'] },
+            { name: 'Tsukiji Outer Market Crawl', city_name: 'Tokyo', description: 'A lively food market for sushi, grilled seafood, knives, and matcha treats—arrive hungry.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Tsukiji Market'] || 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=800&q=80' },
+            { name: 'Shinjuku Night Alleys', city_name: 'Tokyo', description: 'Skyline views followed by lantern alleys and tiny bars—Tokyo nightlife in high definition.', time_estimate: '3–5 hrs', image_url: ATTRACTION_IMAGES['Shinjuku Golden Gai'] },
+            { name: 'teamLab Digital Art', city_name: 'Tokyo', description: 'Walk-through light and sound installations that feel like stepping inside an interactive dream.', time_estimate: '2–3 hrs', image_url: ATTRACTION_IMAGES['teamLab Borderless'] },
+            { name: 'Akihabara Pop Culture', city_name: 'Tokyo', description: 'The epicenter of anime and electronics—gadgets, collectibles, themed cafés, and multi-floor arcades.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Akihabara'] },
             
-            // Kyoto
-            { name: 'Fushimi Inari Shrine', city_name: 'Kyoto', description: 'Thousands of vermillion torii gates winding up a mountain. Iconic and unforgettable.', image_url: ATTRACTION_IMAGES['Fushimi Inari Shrine'] },
-            { name: 'Kinkaku-ji (Golden Pavilion)', city_name: 'Kyoto', description: 'Stunning Zen temple covered in gold leaf, reflected perfectly in its surrounding pond.', image_url: ATTRACTION_IMAGES['Kinkaku-ji'] },
-            { name: 'Arashiyama Bamboo Grove', city_name: 'Kyoto', description: 'Walk through towering bamboo stalks in this ethereal forest. Best visited early morning.', image_url: ATTRACTION_IMAGES['Arashiyama Bamboo Grove'] },
-            { name: 'Gion District', city_name: 'Kyoto', description: 'Traditional geisha district with preserved wooden machiya houses. Spot geiko and maiko at dusk.', image_url: ATTRACTION_IMAGES['Gion District'] },
-            { name: 'Kiyomizu-dera Temple', city_name: 'Kyoto', description: 'Historic temple with a large wooden stage offering panoramic views of Kyoto.', image_url: ATTRACTION_IMAGES['Kiyomizu-dera Temple'] },
+            // Kyoto (7 activities)
+            { name: 'Fushimi Inari Torii Walk', city_name: 'Kyoto', description: 'Thousands of vermillion torii gates winding up a wooded mountain—iconic, cinematic, unforgettable.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Fushimi Inari Shrine'] },
+            { name: 'Kiyomizu-dera and Higashiyama', city_name: 'Kyoto', description: 'A classic temple veranda view, then historic lanes filled with crafts, sweets, and photogenic corners.', time_estimate: '3–5 hrs', image_url: ATTRACTION_IMAGES['Kiyomizu-dera Temple'] },
+            { name: 'Arashiyama Bamboo and River', city_name: 'Kyoto', description: 'Bamboo, river scenery, and serene temples—Kyoto\'s most "storybook" day out.', time_estimate: '4–6 hrs', image_url: ATTRACTION_IMAGES['Arashiyama Bamboo Grove'] },
+            { name: 'Gion Evening Stroll', city_name: 'Kyoto', description: 'Lantern-lit streets and wooden machiya facades—Kyoto at its most atmospheric after dark.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Gion District'] },
+            { name: 'Nishiki Market Tasting', city_name: 'Kyoto', description: '"Kyoto\'s kitchen"—pick-and-try local bites, pickles, sweets, and seasonal specialties.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Nishiki Market'] || 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80' },
+            { name: 'Golden Pavilion Visit', city_name: 'Kyoto', description: 'A gold-leaf pavilion mirrored in a pond—short visit, huge visual payoff.', time_estimate: '1–2 hrs', image_url: ATTRACTION_IMAGES['Kinkaku-ji'] },
+            { name: 'Kyoto Tea Ceremony', city_name: 'Kyoto', description: 'A calm, guided introduction to Japanese aesthetics and ritual—memorable and grounding.', time_estimate: '1–2 hrs', image_url: ATTRACTION_IMAGES['Tea Ceremony'] || 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=800&q=80' },
             
-            // Osaka
-            { name: 'Osaka Castle', city_name: 'Osaka', description: 'Iconic castle with museum inside. Beautiful grounds especially during cherry blossom season.', image_url: ATTRACTION_IMAGES['Osaka Castle'] },
-            { name: 'Dotonbori', city_name: 'Osaka', description: 'Neon-lit entertainment district famous for the Glico Man sign. Street food heaven!', image_url: ATTRACTION_IMAGES['Dotonbori'] },
-            { name: 'Universal Studios Japan', city_name: 'Osaka', description: 'Theme park with unique attractions including the Wizarding World of Harry Potter and Super Nintendo World.', image_url: ATTRACTION_IMAGES['Universal Studios Japan'] },
+            // Osaka (5 activities)
+            { name: 'Dotonbori Neon Night', city_name: 'Osaka', description: 'A neon canal of takoyaki, okonomiyaki, and people-watching—pure Osaka.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Dotonbori'] },
+            { name: 'Kuromon Market Bites', city_name: 'Osaka', description: 'Fresh seafood, fruit, skewers, and quick bites—ideal lunch stop for grazers.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Kuromon Market'] || 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=800&q=80' },
+            { name: 'Universal Studios Japan', city_name: 'Osaka', description: 'High-production rides and immersive themed areas—plan early, stay late.', time_estimate: '8–12 hrs', image_url: ATTRACTION_IMAGES['Universal Studios Japan'] },
+            { name: 'Osaka Castle Grounds', city_name: 'Osaka', description: 'A historic landmark framed by moats and gardens—great for a scenic stroll.', time_estimate: '2–3.5 hrs', image_url: ATTRACTION_IMAGES['Osaka Castle'] },
+            { name: 'Umeda Skyline Views', city_name: 'Osaka', description: 'Big-city panoramas and sleek shopping and food complexes—especially good at sunset.', time_estimate: '1.5–2.5 hrs', image_url: ATTRACTION_IMAGES['Umeda'] || 'https://images.unsplash.com/photo-1590559899731-a382839e5549?w=800&q=80' },
             
-            // Hiroshima
-            { name: 'Hiroshima Peace Memorial', city_name: 'Hiroshima', description: 'Moving museum and memorial dedicated to atomic bomb victims. A profound, must-visit site.', image_url: ATTRACTION_IMAGES['Hiroshima Peace Memorial'] },
-            { name: 'Itsukushima Shrine', city_name: 'Hiroshima', description: 'Famous floating torii gate on Miyajima Island. One of Japan\'s most photographed sights.', image_url: ATTRACTION_IMAGES['Itsukushima Shrine'] },
+            // Nara (2 activities)
+            { name: 'Nara Park and Deer', city_name: 'Nara', description: 'Friendly deer roaming open lawns—equal parts cute and chaotic.', time_estimate: '2–4 hrs', image_url: ATTRACTION_IMAGES['Nara Deer Park'] },
+            { name: 'Todaiji Great Buddha', city_name: 'Nara', description: 'A monumental wooden hall housing an enormous Buddha—jaw-dropping scale.', time_estimate: '1–2 hrs', image_url: ATTRACTION_IMAGES['Todai-ji Temple'] },
             
-            // Nara
-            { name: 'Nara Deer Park', city_name: 'Nara', description: 'Over 1,000 friendly deer roam freely. Buy shika senbei crackers to feed them!', image_url: ATTRACTION_IMAGES['Nara Deer Park'] },
-            { name: 'Todai-ji Temple', city_name: 'Nara', description: 'Houses the world\'s largest bronze Buddha in one of the world\'s largest wooden buildings.', image_url: ATTRACTION_IMAGES['Todai-ji Temple'] },
+            // Miyajima (2 activities)
+            { name: 'Itsukushima Shrine Views', city_name: 'Miyajima', description: 'One of Japan\'s most famous waterfront shrines—especially magical near high tide.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Itsukushima Shrine'] },
+            { name: 'Mount Misen Hike', city_name: 'Miyajima', description: 'Panoramic viewpoints above the Seto Inland Sea—worth the climb for the vistas.', time_estimate: '3–5 hrs', image_url: ATTRACTION_IMAGES['Mount Misen'] || 'https://images.unsplash.com/photo-1505069190533-da1c9af13f7c?w=800&q=80' },
             
-            // Hakone
-            { name: 'Mount Fuji Viewing', city_name: 'Hakone', description: 'Spectacular views of Japan\'s iconic mountain from various vantage points around Hakone.', image_url: ATTRACTION_IMAGES['Mount Fuji'] },
-            { name: 'Traditional Onsen Experience', city_name: 'Hakone', description: 'Soak in natural hot springs with mountain views. Many ryokans offer private onsen.', image_url: ATTRACTION_IMAGES['Japanese Onsen Experience'] },
-            { name: 'Hakone Ropeway', city_name: 'Hakone', description: 'Scenic cable car over volcanic valley with sulfur vents. Views of Lake Ashi and Mt. Fuji.', image_url: ATTRACTION_IMAGES['Hakone Ropeway'] }
+            // Hakone (5 activities)
+            { name: 'Climb Mount Fuji', city_name: 'Hakone', description: 'A bucket-list sunrise climb above the clouds—physically demanding but deeply rewarding.', time_estimate: '12–18 hrs', image_url: ATTRACTION_IMAGES['Mount Fuji'] },
+            { name: 'Fuji Five Lakes Day Trip', city_name: 'Hakone', description: 'Classic Fuji photo angles, lakeside cafés, and easy scenic walks—best with clear skies.', time_estimate: '6–10 hrs', image_url: ATTRACTION_IMAGES['Fuji Lakes'] || 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=800&q=80' },
+            { name: 'Hakone Onsen Ryokan Stay', city_name: 'Hakone', description: 'The quintessential onsen experience—hot springs, quiet views, and an unhurried kaiseki meal.', time_estimate: 'Overnight', image_url: ATTRACTION_IMAGES['Japanese Onsen Experience'] },
+            { name: 'Hakone Open-Air Museum', city_name: 'Hakone', description: 'Sculptures in a mountain garden setting—art and nature in perfect balance.', time_estimate: '2–3.5 hrs', image_url: ATTRACTION_IMAGES['Hakone Open-Air Museum'] || 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80' },
+            { name: 'Hakone Scenic Loop', city_name: 'Hakone', description: 'A greatest-hits circuit of ropeways, volcanic scenery, and lake cruising—varied and fun.', time_estimate: '6–8 hrs', image_url: ATTRACTION_IMAGES['Hakone Ropeway'] },
+            
+            // Kanazawa (2 activities)
+            { name: 'Kenrokuen Garden Walk', city_name: 'Kanazawa', description: 'One of Japan\'s most celebrated landscape gardens—best enjoyed slowly.', time_estimate: '1.5–3 hrs', image_url: ATTRACTION_IMAGES['Kenrokuen'] || 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80' },
+            { name: 'Kanazawa Historic Districts', city_name: 'Kanazawa', description: 'Teahouse streets and old residences—excellent for photos, crafts, and matcha breaks.', time_estimate: '3–5 hrs', image_url: ATTRACTION_IMAGES['Kanazawa'] || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80' },
+            
+            // Shirakawa-go (1 activity)
+            { name: 'Shirakawa-go Farmhouses', city_name: 'Shirakawa-go', description: 'Thatched gassho-zukuri homes in a valley setting—feels like stepping into a folktale.', time_estimate: '3–5 hrs', image_url: ATTRACTION_IMAGES['Shirakawa-go'] || 'https://images.unsplash.com/photo-1522623349500-de37a56ea2a5?w=800&q=80' },
+            
+            // Nikko (1 activity)
+            { name: 'Nikko Toshogu Shrines', city_name: 'Nikko', description: 'Highly detailed, colorful shrine complexes and cedar-lined paths—history meets nature.', time_estimate: '4–7 hrs', image_url: ATTRACTION_IMAGES['Nikko Toshogu'] || 'https://images.unsplash.com/photo-1609619385076-36a873425636?w=800&q=80' },
+            
+            // Koyasan (1 activity)
+            { name: 'Koyasan Temple Stay', city_name: 'Koyasan', description: 'Sleep at a temple, eat shojin ryori, and walk Okunoin—peaceful and profound.', time_estimate: 'Overnight', image_url: ATTRACTION_IMAGES['Koyasan'] || 'https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80' },
+            
+            // Naoshima (1 activity)
+            { name: 'Naoshima Art Island Day', city_name: 'Naoshima', description: 'World-class contemporary art in bold architecture—best enjoyed at an unhurried pace.', time_estimate: '6–10 hrs', image_url: ATTRACTION_IMAGES['Naoshima'] || 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=800&q=80' },
+            
+            // Okinawa (1 activity)
+            { name: 'Okinawa Snorkeling and Beaches', city_name: 'Okinawa', description: 'Clear water and reef life—choose a guided snorkel or dive for the best spots and safety.', time_estimate: '3–6 hrs', image_url: ATTRACTION_IMAGES['Okinawa'] || 'https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=800&q=80' }
         ];
         
         // Match attractions to city IDs
@@ -709,6 +966,7 @@ async function initializeSeedData() {
                 name: attr.name,
                 city_id: citiesMap[attr.city_name] || null,
                 description: attr.description,
+                time_estimate: attr.time_estimate,
                 image_url: attr.image_url,
                 created_at: new Date().toISOString()
             }));
@@ -721,6 +979,7 @@ async function initializeSeedData() {
                     name: attr.name,
                     city_id: citiesMap[attr.city_name] || null,
                     description: attr.description,
+                    time_estimate: attr.time_estimate,
                     image_url: attr.image_url
                 });
             }

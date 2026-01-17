@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/styles.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=2">
 </head>
 <body class="landing-page">
     <!-- Landing/User Selection Screen -->
@@ -59,14 +59,14 @@
         </div>
     </main>
 
+    <!-- App Background (separate from container for proper fixed positioning) -->
+    <div class="bg-animation app-bg-animation hidden" id="appBgAnimation">
+        <div class="sakura-petals" id="appSakuraPetals"></div>
+        <div class="gradient-overlay"></div>
+    </div>
+
     <!-- Main Application (hidden initially) -->
     <div class="app-container hidden" id="appContainer">
-        <!-- Animated background for app -->
-        <div class="bg-animation">
-            <div class="sakura-petals" id="appSakuraPetals"></div>
-            <div class="gradient-overlay"></div>
-        </div>
-
         <!-- Navigation -->
         <nav class="main-nav">
             <div class="nav-brand">
@@ -103,7 +103,14 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
-                    <span>Attractions</span>
+                    <span>Activities</span>
+                </a>
+                <a href="#budget" class="nav-link" data-section="budget">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    <span>Budget</span>
                 </a>
             </div>
             <div class="nav-user">
@@ -158,7 +165,7 @@
                             </div>
                             <div class="stat-item">
                                 <span class="stat-value" id="statAttractions">0</span>
-                                <span class="stat-label">Attractions</span>
+                                <span class="stat-label">Activities</span>
                             </div>
                         </div>
                         <div class="best-dates" id="bestDates">
@@ -194,10 +201,10 @@
                     </div>
                 </div>
 
-                <!-- Top Attractions -->
+                <!-- Top Activities -->
                 <div class="dashboard-card top-attractions">
                     <div class="card-header">
-                        <h3>Most Voted Attractions</h3>
+                        <h3>Most Voted Activities</h3>
                         <a href="#attractions" class="card-link">View All →</a>
                     </div>
                     <div class="card-content">
@@ -207,7 +214,20 @@
                     </div>
                 </div>
 
-                <!-- Team Status -->
+                <!-- Budget Overview Card -->
+                <div class="dashboard-card budget-overview">
+                    <div class="card-header">
+                        <h3>Budget Preferences</h3>
+                        <a href="#budget" class="card-link">Set Yours →</a>
+                    </div>
+                    <div class="card-content">
+                        <div class="budget-tiers-summary" id="budgetTiersSummary">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Status - Full Width at Bottom -->
                 <div class="dashboard-card team-status">
                     <div class="card-header">
                         <h3>Team Status</h3>
@@ -218,6 +238,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -331,10 +352,10 @@
             </button>
         </section>
 
-        <!-- Attractions Section -->
+        <!-- Activities Section -->
         <section class="content-section" id="attractions">
             <div class="section-header">
-                <h1>Attractions</h1>
+                <h1>Activities</h1>
                 <p class="section-subtitle">Vote on what you want to see and do!</p>
                 <div class="filter-tabs">
                     <button class="filter-tab active" data-filter="all">All</button>
@@ -347,12 +368,252 @@
                 <!-- Attraction cards will be populated by JS -->
             </div>
 
-            <button class="btn-floating" id="addAttractionBtn" title="Add Attraction">
+            <button class="btn-floating" id="addAttractionBtn" title="Add Activity">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/>
                     <line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
             </button>
+        </section>
+
+        <!-- Budget Section -->
+        <section class="content-section" id="budget">
+            <div class="section-header">
+                <h1>Trip Budget</h1>
+                <p class="section-subtitle">Choose your spending tier for each category</p>
+            </div>
+
+            <div class="budget-container">
+                <!-- Budget Summary Card -->
+                <div class="budget-summary-card">
+                    <div class="budget-total">
+                        <div class="budget-total-header">
+                            <span class="budget-label">Your Estimated Total</span>
+                            <span class="budget-days">for <span id="budgetTripDays">14</span> days</span>
+                        </div>
+                        <div class="budget-total-amount">
+                            <span class="currency">$</span>
+                            <span class="amount" id="budgetTotalAmount">0</span>
+                        </div>
+                        <div class="budget-per-day">
+                            <span>≈ $<span id="budgetPerDay">0</span>/day</span>
+                        </div>
+                    </div>
+                    
+                    <div class="budget-breakdown">
+                        <h4>Cost Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-icon">✈️</span>
+                            <span class="breakdown-label">Flight</span>
+                            <span class="breakdown-value" id="breakdownFlight">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-icon">🏨</span>
+                            <span class="breakdown-label">Hotels</span>
+                            <span class="breakdown-value" id="breakdownHotels">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-icon">🍜</span>
+                            <span class="breakdown-label">Food</span>
+                            <span class="breakdown-value" id="breakdownFood">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-icon">🎌</span>
+                            <span class="breakdown-label">Activities</span>
+                            <span class="breakdown-value" id="breakdownActivities">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-icon">🛍️</span>
+                            <span class="breakdown-label">Shopping</span>
+                            <span class="breakdown-value" id="breakdownShopping">$0</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary save-btn" id="saveBudgetBtn">
+                        <span>Save My Budget</span>
+                    </button>
+                </div>
+
+                <!-- Budget Tiers Selection -->
+                <div class="budget-tiers">
+                    <!-- Flight Tier -->
+                    <div class="budget-category" data-category="flight">
+                        <div class="category-header">
+                            <span class="category-icon">✈️</span>
+                            <h3>Flight</h3>
+                        </div>
+                        <div class="tier-options">
+                            <label class="tier-option" data-tier="economy">
+                                <input type="radio" name="flight" value="economy" checked>
+                                <div class="tier-card">
+                                    <span class="tier-name">Chūkansō</span>
+                                    <span class="tier-japanese">中間層</span>
+                                    <span class="tier-description">Economy Class</span>
+                                    <span class="tier-price">~$1,100</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="business">
+                                <input type="radio" name="flight" value="business">
+                                <div class="tier-card">
+                                    <span class="tier-name">Fuyūsō</span>
+                                    <span class="tier-japanese">富裕層</span>
+                                    <span class="tier-description">Business Class</span>
+                                    <span class="tier-price">~$4,500</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Hotels Tier -->
+                    <div class="budget-category" data-category="hotels">
+                        <div class="category-header">
+                            <span class="category-icon">🏨</span>
+                            <h3>Hotels</h3>
+                        </div>
+                        <div class="tier-options">
+                            <label class="tier-option" data-tier="budget">
+                                <input type="radio" name="hotels" value="budget" checked>
+                                <div class="tier-card">
+                                    <span class="tier-name">Ronin</span>
+                                    <span class="tier-japanese">浪人</span>
+                                    <span class="tier-description">Hostels & Capsules</span>
+                                    <span class="tier-price">~$80/night</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="mid">
+                                <input type="radio" name="hotels" value="mid">
+                                <div class="tier-card">
+                                    <span class="tier-name">Daimyo</span>
+                                    <span class="tier-japanese">大名</span>
+                                    <span class="tier-description">Nice Hotels & Ryokan</span>
+                                    <span class="tier-price">~$160/night</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="luxury">
+                                <input type="radio" name="hotels" value="luxury">
+                                <div class="tier-card">
+                                    <span class="tier-name">Shogun</span>
+                                    <span class="tier-japanese">将軍</span>
+                                    <span class="tier-description">Luxury Hotels</span>
+                                    <span class="tier-price">~$400/night</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Food Tier -->
+                    <div class="budget-category" data-category="food">
+                        <div class="category-header">
+                            <span class="category-icon">🍜</span>
+                            <h3>Food</h3>
+                        </div>
+                        <div class="tier-options">
+                            <label class="tier-option" data-tier="budget">
+                                <input type="radio" name="food" value="budget" checked>
+                                <div class="tier-card">
+                                    <span class="tier-name">Aikido</span>
+                                    <span class="tier-japanese">合気道</span>
+                                    <span class="tier-description">Konbini & Ramen</span>
+                                    <span class="tier-price">~$40/day</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="mid">
+                                <input type="radio" name="food" value="mid">
+                                <div class="tier-card">
+                                    <span class="tier-name">Judo</span>
+                                    <span class="tier-japanese">柔道</span>
+                                    <span class="tier-description">Nice Restaurants</span>
+                                    <span class="tier-price">~$80/day</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="premium">
+                                <input type="radio" name="food" value="premium">
+                                <div class="tier-card">
+                                    <span class="tier-name">Sumo</span>
+                                    <span class="tier-japanese">相撲</span>
+                                    <span class="tier-description">Omakase & Kaiseki</span>
+                                    <span class="tier-price">~$120/day</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Activities Tier -->
+                    <div class="budget-category" data-category="activities">
+                        <div class="category-header">
+                            <span class="category-icon">🎌</span>
+                            <h3>Activities</h3>
+                        </div>
+                        <div class="tier-options">
+                            <label class="tier-option" data-tier="basic">
+                                <input type="radio" name="activities" value="basic" checked>
+                                <div class="tier-card">
+                                    <span class="tier-name">Genin</span>
+                                    <span class="tier-japanese">下忍</span>
+                                    <span class="tier-description">Limited Destinations and Activities</span>
+                                    <span class="tier-price">~$20/day</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="moderate">
+                                <input type="radio" name="activities" value="moderate">
+                                <div class="tier-card">
+                                    <span class="tier-name">Chunin</span>
+                                    <span class="tier-japanese">中忍</span>
+                                    <span class="tier-description">More Destinations and Activities</span>
+                                    <span class="tier-price">~$60/day</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="premium">
+                                <input type="radio" name="activities" value="premium">
+                                <div class="tier-card">
+                                    <span class="tier-name">Jonin</span>
+                                    <span class="tier-japanese">上忍</span>
+                                    <span class="tier-description">Most Destinations and Activities</span>
+                                    <span class="tier-price">~$100/day</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Shopping Tier -->
+                    <div class="budget-category" data-category="shopping">
+                        <div class="category-header">
+                            <span class="category-icon">🛍️</span>
+                            <h3>Shopping</h3>
+                        </div>
+                        <div class="tier-options">
+                            <label class="tier-option" data-tier="minimal">
+                                <input type="radio" name="shopping" value="minimal" checked>
+                                <div class="tier-card">
+                                    <span class="tier-name">Gachapon</span>
+                                    <span class="tier-japanese">ガチャポン</span>
+                                    <span class="tier-description">Souvenirs Only</span>
+                                    <span class="tier-price">~$100 total</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="moderate">
+                                <input type="radio" name="shopping" value="moderate">
+                                <div class="tier-card">
+                                    <span class="tier-name">Shotengai</span>
+                                    <span class="tier-japanese">商店街</span>
+                                    <span class="tier-description">Clothes & Gifts</span>
+                                    <span class="tier-price">~$350 total</span>
+                                </div>
+                            </label>
+                            <label class="tier-option" data-tier="splurge">
+                                <input type="radio" name="shopping" value="splurge">
+                                <div class="tier-card">
+                                    <span class="tier-name">Ginza</span>
+                                    <span class="tier-japanese">銀座</span>
+                                    <span class="tier-description">Luxury Shopping</span>
+                                    <span class="tier-price">~$1,000 total</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </div>
 
@@ -379,6 +640,7 @@
     <script src="js/availability.js"></script>
     <script src="js/destinations.js"></script>
     <script src="js/attractions.js"></script>
+    <script src="js/budget.js"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

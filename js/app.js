@@ -147,7 +147,10 @@ function setupEventListeners() {
             localStorage.removeItem('japan2026_currentUser');
             currentUser = null;
             appContainer.classList.add('hidden');
+            const appBgAnimation = document.getElementById('appBgAnimation');
+            if (appBgAnimation) appBgAnimation.classList.add('hidden');
             landingScreen.classList.remove('hidden');
+            document.body.classList.add('landing-page');
             continueSection.classList.add('hidden');
             renderUserSelection();
         });
@@ -272,6 +275,9 @@ function showApp() {
     // Hide landing, show app
     if (landingScreen) landingScreen.classList.add('hidden');
     if (appContainer) appContainer.classList.remove('hidden');
+    const appBgAnimation = document.getElementById('appBgAnimation');
+    if (appBgAnimation) appBgAnimation.classList.remove('hidden');
+    document.body.classList.remove('landing-page');
     
     // Update nav user info
     updateNavUser();
@@ -281,6 +287,7 @@ function showApp() {
     if (typeof initAvailability === 'function') initAvailability();
     if (typeof initDestinations === 'function') initDestinations();
     if (typeof initAttractions === 'function') initAttractions();
+    if (typeof initBudget === 'function') initBudget();
     
     // Set up navigation
     initNavigation();
@@ -395,6 +402,9 @@ function showSection(sectionId) {
             break;
         case 'attractions':
             if (typeof refreshAttractions === 'function') refreshAttractions();
+            break;
+        case 'budget':
+            if (typeof refreshBudget === 'function') refreshBudget();
             break;
     }
 }

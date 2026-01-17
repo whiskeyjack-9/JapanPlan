@@ -83,6 +83,22 @@ CREATE TABLE IF NOT EXISTS user_city_days (
 );
 
 -- ========================================
+-- USER BUDGETS TABLE
+-- ========================================
+CREATE TABLE IF NOT EXISTS user_budgets (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    flight_tier TEXT DEFAULT 'economy',      -- economy, business
+    hotels_tier TEXT DEFAULT 'budget',       -- budget, mid, luxury
+    food_tier TEXT DEFAULT 'budget',         -- budget, mid, premium
+    activities_tier TEXT DEFAULT 'basic',    -- basic, moderate, premium
+    shopping_tier TEXT DEFAULT 'minimal',    -- minimal, moderate, splurge
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_id)
+);
+
+-- ========================================
 -- ATTRACTIONS TABLE
 -- ========================================
 CREATE TABLE IF NOT EXISTS attractions (
@@ -90,6 +106,7 @@ CREATE TABLE IF NOT EXISTS attractions (
     name TEXT NOT NULL,
     city_id UUID REFERENCES cities(id) ON DELETE SET NULL,
     description TEXT,
+    time_estimate TEXT,  -- e.g. "2-4 hrs", "Overnight"
     image_url TEXT,
     created_by UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

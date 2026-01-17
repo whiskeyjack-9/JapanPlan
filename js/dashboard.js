@@ -33,7 +33,8 @@ async function refreshDashboard() {
         updateTimeline(),
         updateTopDestinations(),
         updateTopAttractions(),
-        updateTeamStatus()
+        updateTeamStatus(),
+        updateBudgetOverview()
     ]);
 }
 
@@ -215,17 +216,20 @@ async function updateTopDestinations() {
         return;
     }
     
-    topDestinations.innerHTML = sortedCities.map((city, index) => `
-        <div class="top-item">
-            <div class="top-item-rank">${index + 1}</div>
-            <img class="top-item-image" src="${city.image_url}" alt="${city.name}" onerror="this.style.display='none'">
-            <div class="top-item-info">
-                <div class="top-item-name">${city.name}</div>
-                <div class="top-item-meta">${city.userCount} people interested</div>
+    topDestinations.innerHTML = sortedCities.map((city, index) => {
+        const avgDays = city.userCount > 0 ? (city.totalDays / city.userCount).toFixed(1) : 0;
+        return `
+            <div class="top-item">
+                <div class="top-item-rank">${index + 1}</div>
+                <img class="top-item-image" src="${city.image_url}" alt="${city.name}" onerror="this.style.display='none'">
+                <div class="top-item-info">
+                    <div class="top-item-name">${city.name}</div>
+                    <div class="top-item-meta">${city.userCount} people interested</div>
+                </div>
+                <div class="top-item-votes">${avgDays} days</div>
             </div>
-            <div class="top-item-votes">${city.totalDays} days</div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // ========================================
@@ -266,7 +270,7 @@ async function updateTopAttractions() {
     
     if (sortedAttractions.length === 0) {
         topAttractions.innerHTML = `
-            <p class="text-muted text-center">No votes yet.<br>Go to Attractions to vote!</p>
+            <p class="text-muted text-center">No votes yet.<br>Go to Activities to vote!</p>
         `;
         return;
     }
@@ -277,7 +281,7 @@ async function updateTopAttractions() {
             <img class="top-item-image" src="${attr.image_url}" alt="${attr.name}" onerror="this.style.display='none'">
             <div class="top-item-info">
                 <div class="top-item-name">${attr.name}</div>
-                <div class="top-item-meta">👍 ${attr.upvotes} · 👎 ${attr.downvotes}</div>
+                <div class="top-item-meta">${attr.upvotes + attr.downvotes} votes</div>
             </div>
             <div class="top-item-votes ${attr.score > 0 ? 'positive' : attr.score < 0 ? 'negative' : ''}">${attr.score > 0 ? '+' : ''}${attr.score}</div>
         </div>
@@ -335,4 +339,126 @@ async function updateTeamStatus() {
             </div>
         `;
     }).join('');
+}
+
+// ========================================
+// BUDGET OVERVIEW
+// ========================================
+
+async function updateBudgetOverview() {
+    const budgetSummary = document.getElementById('budgetTiersSummary');
+    if (!budgetSummary) return;
+    
+    // Get all user budgets
+    const allBudgets = await getAllUserBudgets();
+    const totalUsers = users.length;
+    const usersWithBudget = allBudgets.length;
+    
+    // Tier names for display
+    const tierLabels = {
+        flight: {
+            economy: { name: 'Chūkansō', japanese: '中間層' },
+            business: { name: 'Fuyūsō', japanese: '富裕層' }
+        },
+        hotels: {
+            budget: { name: 'Ronin', japanese: '浪人' },
+            mid: { name: 'Daimyo', japanese: '大名' },
+            luxury: { name: 'Shogun', japanese: '将軍' }
+        },
+        food: {
+            budget: { name: 'Aikido', japanese: '合気道' },
+            mid: { name: 'Judo', japanese: '柔道' },
+            premium: { name: 'Sumo', japanese: '相撲' }
+        },
+        activities: {
+            basic: { name: 'Genin', japanese: '下忍' },
+            moderate: { name: 'Chunin', japanese: '中忍' },
+            premium: { name: 'Jonin', japanese: '上忍' }
+        },
+        shopping: {
+            minimal: { name: 'Gachapon', japanese: 'ガチャポン' },
+            moderate: { name: 'Shotengai', japanese: '商店街' },
+            splurge: { name: 'Ginza', japanese: '銀座' }
+        }
+    };
+    
+    // Count each tier selection
+    const counts = {
+        flight: {},
+        hotels: {},
+        food: {},
+        activities: {},
+        shopping: {}
+    };
+    
+    // Initialize counts
+    Object.keys(tierLabels).forEach(category => {
+        Object.keys(tierLabels[category]).forEach(tier => {
+            counts[category][tier] = 0;
+        });
+    });
+    
+    // Tally up selections
+    allBudgets.forEach(budget => {
+        if (budget.flight_tier && counts.flight[budget.flight_tier] !== undefined) {
+            counts.flight[budget.flight_tier]++;
+        }
+        if (budget.hotels_tier && counts.hotels[budget.hotels_tier] !== undefined) {
+            counts.hotels[budget.hotels_tier]++;
+        }
+        if (budget.food_tier && counts.food[budget.food_tier] !== undefined) {
+            counts.food[budget.food_tier]++;
+        }
+        if (budget.activities_tier && counts.activities[budget.activities_tier] !== undefined) {
+            counts.activities[budget.activities_tier]++;
+        }
+        if (budget.shopping_tier && counts.shopping[budget.shopping_tier] !== undefined) {
+            counts.shopping[budget.shopping_tier]++;
+        }
+    });
+    
+    if (usersWithBudget === 0) {
+        budgetSummary.innerHTML = `
+            <p class="text-muted text-center">No one has set their budget yet.<br>Be the first!</p>
+        `;
+        return;
+    }
+    
+    // Build the summary HTML
+    const categories = [
+        { key: 'flight', icon: '✈️', label: 'Flight' },
+        { key: 'hotels', icon: '🏨', label: 'Hotels' },
+        { key: 'food', icon: '🍜', label: 'Food' },
+        { key: 'activities', icon: '🎌', label: 'Activities' },
+        { key: 'shopping', icon: '🛍️', label: 'Shopping' }
+    ];
+    
+    budgetSummary.innerHTML = `
+        <div class="budget-responders">${usersWithBudget} of ${totalUsers} have set budgets</div>
+        ${categories.map(cat => {
+            const tierCounts = counts[cat.key];
+            const tiers = Object.keys(tierLabels[cat.key]);
+            
+            return `
+                <div class="budget-category-row">
+                    <div class="budget-category-label">
+                        <span class="budget-cat-icon">${cat.icon}</span>
+                        <span>${cat.label}</span>
+                    </div>
+                    <div class="budget-tier-counts">
+                        ${tiers.map(tier => {
+                            const count = tierCounts[tier];
+                            const label = tierLabels[cat.key][tier];
+                            return `
+                                <div class="tier-count-item ${count > 0 ? 'has-votes' : ''}">
+                                    <span class="tier-count-japanese">${label.japanese}</span>
+                                    <span class="tier-count-num">${count}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('')}
+    `;
 }

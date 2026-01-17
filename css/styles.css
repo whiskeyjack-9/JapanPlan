@@ -15,6 +15,10 @@
     --sakura-medium: #ff8fab;
     --sakura-deep: #ff5c8d;
     --sakura-glow: rgba(255, 143, 171, 0.4);
+    /* Theme accent colors - used for highlights, active states, links */
+    --theme-accent: #ff8fab;
+    --theme-accent-light: #ffd6e0;
+    --theme-accent-glow: rgba(255, 143, 171, 0.4);
     --accent-1: #5ce1e6;
     --accent-2: #b06cff;
     --accent-3: #ff9a5c;
@@ -67,6 +71,9 @@
     --text-primary: #e6f0ff;
     --text-secondary: #b7c6e2;
     --text-muted: #7d8faf;
+    --theme-accent: #3fa9f5;
+    --theme-accent-light: #7dd3fc;
+    --theme-accent-glow: rgba(63, 169, 245, 0.4);
     --accent-1: #3fa9f5;
     --accent-2: #7dd3fc;
     --accent-3: #99f6e4;
@@ -83,26 +90,39 @@
     --text-primary: #ffe8d8;
     --text-secondary: #f0c7a1;
     --text-muted: #b88f72;
+    --theme-accent: #c41e3a;
+    --theme-accent-light: #e85a6b;
+    --theme-accent-glow: rgba(196, 30, 58, 0.4);
     --accent-1: #c41e3a;
     --accent-2: #d85d34;
     --accent-3: #d4a853;
     --gradient-sakura: linear-gradient(135deg, #c41e3a 0%, #d85d34 100%);
 }
 
-/* Bamboo Zen */
+/* Bamboo Zen - Tranquil Japanese Garden */
 .theme-bamboo {
-    --bg-primary: #0f1a14;
-    --bg-secondary: #13231a;
-    --bg-card: #162c20;
-    --bg-card-hover: #1c3326;
-    --bg-elevated: #1f3b2c;
-    --text-primary: #e8f3e5;
-    --text-secondary: #c9d8c5;
-    --text-muted: #8da08d;
-    --accent-1: #7fbf7f;
-    --accent-2: #b3d6aa;
-    --accent-3: #d3e8c8;
-    --gradient-sakura: linear-gradient(135deg, #345c3d 0%, #7fbf7f 100%);
+    --bg-primary: #080f0c;
+    --bg-secondary: #0c1812;
+    --bg-card: #10211a;
+    --bg-card-hover: #142a21;
+    --bg-elevated: #183326;
+    --text-primary: #e0f2e9;
+    --text-secondary: #a8c9b8;
+    --text-muted: #6a9080;
+    /* Jade and gold accents for sophistication */
+    --theme-accent: #50c878;
+    --theme-accent-light: #98d8aa;
+    --theme-accent-glow: rgba(80, 200, 120, 0.35);
+    --accent-1: #50c878;
+    --accent-2: #7dd8a0;
+    --accent-3: #d4af37;
+    --gradient-sakura: linear-gradient(135deg, #1a4d32 0%, #50c878 50%, #d4af37 100%);
+    /* Additional zen colors */
+    --zen-jade: #50c878;
+    --zen-emerald: #2e8b57;
+    --zen-gold: #d4af37;
+    --zen-mist: rgba(200, 220, 210, 0.08);
+    --zen-moonlight: rgba(230, 250, 240, 0.12);
 }
 
 /* Momiji Autumn */
@@ -156,9 +176,8 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
-    min-height: 100vh;
-    height: 100%;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -170,15 +189,21 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .gradient-overlay {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     background:
         radial-gradient(ellipse at 20% 20%, rgba(255, 92, 141, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, rgba(176, 108, 255, 0.1) 0%, transparent 50%),
@@ -229,7 +254,7 @@ body {
 /* Pink ambient glow for sakura */
 .theme-sakura .gradient-overlay::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background:
         radial-gradient(ellipse at 10% 70%, rgba(255, 120, 170, 0.12) 0%, transparent 35%),
@@ -255,7 +280,7 @@ body {
 /* Wave Layer 1 - Deep back wave (darkest, tallest) */
 .theme-kanagawa .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: -50%;
     width: 300%;
@@ -272,7 +297,7 @@ body {
 /* Wave Layers 2-4 - Stacked mid and front waves */
 .theme-kanagawa .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: -50%;
     width: 300%;
@@ -294,7 +319,7 @@ body {
 /* Seafoam spray and bubbles */
 .theme-kanagawa .gradient-overlay::before {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 60px;
     left: -20%;
     width: 140%;
@@ -316,7 +341,7 @@ body {
 /* Moon glow reflection on water */
 .theme-kanagawa .gradient-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 5%;
     right: 15%;
     width: 120px;
@@ -335,7 +360,7 @@ body {
 }
 .theme-torii .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: -120px 0 0 0;
     background:
         radial-gradient(ellipse at 50% 30%, rgba(255, 210, 150, 0.22) 0%, rgba(255, 210, 150, 0) 55%),
@@ -350,7 +375,7 @@ body {
 }
 .theme-torii .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background:
         radial-gradient(ellipse at 30% 30%, rgba(255, 200, 150, 0.08), transparent 50%),
@@ -359,98 +384,127 @@ body {
 }
 
 /* ============================================
-   BAMBOO ZEN THEME - Tranquil Forest
+   BAMBOO ZEN THEME - Tranquil Japanese Garden
+   With moonlit pond, zen stones, and fireflies
    ============================================ */
 .theme-bamboo .gradient-overlay {
     background:
-        /* Moonlight filtering through canopy */
-        radial-gradient(ellipse at 70% 10%, rgba(200, 230, 200, 0.12) 0%, transparent 35%),
-        radial-gradient(ellipse at 30% 25%, rgba(150, 200, 160, 0.08) 0%, transparent 30%),
-        /* Soft ambient forest light */
-        radial-gradient(ellipse at 20% 60%, rgba(100, 160, 120, 0.10) 0%, transparent 40%),
-        radial-gradient(ellipse at 80% 70%, rgba(120, 180, 140, 0.08) 0%, transparent 45%),
-        /* Deep forest gradient */
-        linear-gradient(180deg, 
-            rgba(15, 35, 25, 0.97) 0%, 
-            rgba(20, 45, 32, 0.95) 30%,
-            rgba(18, 40, 28, 0.96) 60%,
-            rgba(12, 30, 22, 0.98) 100%);
+        /* Ethereal moonlight from upper right */
+        radial-gradient(ellipse at 75% 5%, rgba(220, 255, 240, 0.18) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 8%, rgba(180, 230, 210, 0.12) 0%, transparent 35%),
+        /* Soft jade glow accents */
+        radial-gradient(ellipse at 15% 25%, rgba(80, 200, 120, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 35%, rgba(80, 200, 120, 0.06) 0%, transparent 35%),
+        /* Golden lantern glow - subtle */
+        radial-gradient(ellipse at 25% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 25%),
+        /* Deep forest atmosphere */
+        radial-gradient(ellipse at 50% 100%, rgba(10, 30, 20, 0.95) 0%, transparent 60%),
+        /* Main gradient - rich dark greens */
+        linear-gradient(175deg,
+            rgba(8, 18, 14, 0.98) 0%,
+            rgba(12, 28, 20, 0.96) 20%,
+            rgba(10, 24, 18, 0.97) 40%,
+            rgba(8, 20, 15, 0.98) 60%,
+            rgba(6, 15, 12, 0.99) 80%,
+            rgba(4, 12, 10, 1) 100%);
 }
 
-/* Bamboo stalks - left cluster */
+/* Bamboo stalks - left cluster with enhanced detail */
 .theme-bamboo .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
-    width: 50%;
+    width: 55%;
     height: 100%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 800' preserveAspectRatio='xMinYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='bamboo1' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a3d28'/%3E%3Cstop offset='30%25' stop-color='%23264d35'/%3E%3Cstop offset='70%25' stop-color='%231f4230'/%3E%3Cstop offset='100%25' stop-color='%23153520'/%3E%3C/linearGradient%3E%3ClinearGradient id='bamboo2' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231e4530'/%3E%3Cstop offset='30%25' stop-color='%232a5540'/%3E%3Cstop offset='70%25' stop-color='%23234a38'/%3E%3Cstop offset='100%25' stop-color='%231a3d28'/%3E%3C/linearGradient%3E%3ClinearGradient id='bamboo3' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23163525'/%3E%3Cstop offset='30%25' stop-color='%23204530'/%3E%3Cstop offset='70%25' stop-color='%231b3c2a'/%3E%3Cstop offset='100%25' stop-color='%23122d1e'/%3E%3C/linearGradient%3E%3ClinearGradient id='node' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23142a1c'/%3E%3Cstop offset='50%25' stop-color='%231a3525'/%3E%3Cstop offset='100%25' stop-color='%23112418'/%3E%3C/linearGradient%3E%3ClinearGradient id='leaf' x1='0%25' y1='50%25' x2='100%25' y2='50%25'%3E%3Cstop offset='0%25' stop-color='%232d6040'/%3E%3Cstop offset='50%25' stop-color='%23387050'/%3E%3Cstop offset='100%25' stop-color='%232a5538'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3C!-- Bamboo 1 - far left, tallest --%3E%3Crect x='20' y='0' width='22' height='800' fill='url(%23bamboo1)'/%3E%3Crect x='18' y='100' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3Crect x='18' y='220' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3Crect x='18' y='340' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3Crect x='18' y='460' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3Crect x='18' y='580' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3Crect x='18' y='700' width='26' height='8' rx='2' fill='url(%23node)'/%3E%3C!-- Leaves from nodes --%3E%3Cpath d='M44 100 Q70 85 95 95 Q70 100 44 105' fill='url(%23leaf)' opacity='0.9'/%3E%3Cpath d='M44 102 Q65 115 85 108' fill='url(%23leaf)' opacity='0.7'/%3E%3Cpath d='M44 340 Q75 325 100 335 Q70 342 44 348' fill='url(%23leaf)' opacity='0.85'/%3E%3Cpath d='M44 580 Q72 565 98 575 Q68 582 44 588' fill='url(%23leaf)' opacity='0.8'/%3E%3C!-- Bamboo 2 - second from left --%3E%3Crect x='70' y='80' width='18' height='720' fill='url(%23bamboo2)'/%3E%3Crect x='68' y='180' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='68' y='290' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='68' y='400' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='68' y='510' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='68' y='620' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='68' y='730' width='22' height='7' rx='2' fill='url(%23node)'/%3E%3Cpath d='M90 180 Q115 168 135 178 Q110 183 90 188' fill='url(%23leaf)' opacity='0.85'/%3E%3Cpath d='M68 290 Q45 278 25 288 Q48 293 68 298' fill='url(%23leaf)' opacity='0.8'/%3E%3Cpath d='M90 510 Q118 498 140 508' fill='url(%23leaf)' opacity='0.75'/%3E%3C!-- Bamboo 3 - mid left --%3E%3Crect x='125' y='150' width='20' height='650' fill='url(%23bamboo3)'/%3E%3Crect x='123' y='250' width='24' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='123' y='365' width='24' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='123' y='480' width='24' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='123' y='595' width='24' height='7' rx='2' fill='url(%23node)'/%3E%3Crect x='123' y='710' width='24' height='7' rx='2' fill='url(%23node)'/%3E%3Cpath d='M147 250 Q175 238 200 248 Q172 254 147 260' fill='url(%23leaf)' opacity='0.9'/%3E%3Cpath d='M147 252 Q170 265 190 258' fill='url(%23leaf)' opacity='0.7'/%3E%3Cpath d='M123 480 Q98 468 75 478 Q100 484 123 490' fill='url(%23leaf)' opacity='0.8'/%3E%3C!-- Bamboo 4 - thin accent --%3E%3Crect x='180' y='200' width='14' height='600' fill='url(%23bamboo1)' opacity='0.8'/%3E%3Crect x='178' y='300' width='18' height='6' rx='2' fill='url(%23node)'/%3E%3Crect x='178' y='420' width='18' height='6' rx='2' fill='url(%23node)'/%3E%3Crect x='178' y='540' width='18' height='6' rx='2' fill='url(%23node)'/%3E%3Crect x='178' y='660' width='18' height='6' rx='2' fill='url(%23node)'/%3E%3Cpath d='M194 300 Q218 290 238 298' fill='url(%23leaf)' opacity='0.75'/%3E%3Cpath d='M194 540 Q220 530 245 538' fill='url(%23leaf)' opacity='0.7'/%3E%3C!-- Additional thin stalks for depth --%3E%3Crect x='230' y='280' width='12' height='520' fill='url(%23bamboo2)' opacity='0.6'/%3E%3Crect x='228' y='380' width='16' height='5' rx='1' fill='url(%23node)' opacity='0.6'/%3E%3Crect x='228' y='500' width='16' height='5' rx='1' fill='url(%23node)' opacity='0.6'/%3E%3Crect x='228' y='620' width='16' height='5' rx='1' fill='url(%23node)' opacity='0.6'/%3E%3Crect x='275' y='350' width='10' height='450' fill='url(%23bamboo3)' opacity='0.45'/%3E%3Crect x='273' y='450' width='14' height='4' rx='1' fill='url(%23node)' opacity='0.45'/%3E%3Crect x='273' y='570' width='14' height='4' rx='1' fill='url(%23node)' opacity='0.45'/%3E%3Crect x='310' y='400' width='8' height='400' fill='url(%23bamboo1)' opacity='0.35'/%3E%3C/g%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 900' preserveAspectRatio='xMinYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='bambooL1' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230d2618'/%3E%3Cstop offset='20%25' stop-color='%23173d28'/%3E%3Cstop offset='50%25' stop-color='%231f5035'/%3E%3Cstop offset='80%25' stop-color='%23163a26'/%3E%3Cstop offset='100%25' stop-color='%230a1e14'/%3E%3C/linearGradient%3E%3ClinearGradient id='bambooL2' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23102d1c'/%3E%3Cstop offset='25%25' stop-color='%231a4530'/%3E%3Cstop offset='50%25' stop-color='%23235a3e'/%3E%3Cstop offset='75%25' stop-color='%23194230'/%3E%3Cstop offset='100%25' stop-color='%230c2416'/%3E%3C/linearGradient%3E%3ClinearGradient id='bambooL3' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230e2a1a'/%3E%3Cstop offset='30%25' stop-color='%23164028'/%3E%3Cstop offset='70%25' stop-color='%23123522'/%3E%3Cstop offset='100%25' stop-color='%23081c10'/%3E%3C/linearGradient%3E%3ClinearGradient id='nodeL' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23081810'/%3E%3Cstop offset='50%25' stop-color='%230f2a1a'/%3E%3Cstop offset='100%25' stop-color='%23061408'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafL1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231a4530'/%3E%3Cstop offset='50%25' stop-color='%23286048'/%3E%3Cstop offset='100%25' stop-color='%231a4530'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafL2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23205540'/%3E%3Cstop offset='50%25' stop-color='%232d7058'/%3E%3Cstop offset='100%25' stop-color='%23184a38'/%3E%3C/linearGradient%3E%3ClinearGradient id='highlightL' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(120,200,140,0.15)'/%3E%3Cstop offset='100%25' stop-color='rgba(60,100,70,0)'/%3E%3C/linearGradient%3E%3Cfilter id='glowL'%3E%3CfeGaussianBlur stdDeviation='2' result='glow'/%3E%3CfeMerge%3E%3CfeMergeNode in='glow'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg%3E%3C!-- Main bamboo 1 --%3E%3Crect x='25' y='0' width='28' height='900' fill='url(%23bambooL1)'/%3E%3Crect x='25' y='0' width='8' height='900' fill='url(%23highlightL)'/%3E%3Crect x='22' y='110' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='22' y='250' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='22' y='390' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='22' y='530' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='22' y='670' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='22' y='810' width='34' height='10' rx='3' fill='url(%23nodeL)'/%3E%3C!-- Elegant leaves --%3E%3Cpath d='M56 108 Q95 85 130 100 Q90 108 56 118' fill='url(%23leafL1)' opacity='0.9'/%3E%3Cpath d='M56 112 Q85 130 115 118' fill='url(%23leafL2)' opacity='0.7'/%3E%3Cpath d='M56 390 Q100 365 140 385 Q95 395 56 405' fill='url(%23leafL1)' opacity='0.85'/%3E%3Cpath d='M56 394 Q90 415 125 400' fill='url(%23leafL2)' opacity='0.65'/%3E%3Cpath d='M56 670 Q105 648 145 668 Q100 678 56 688' fill='url(%23leafL1)' opacity='0.8'/%3E%3C!-- Bamboo 2 --%3E%3Crect x='85' y='60' width='24' height='840' fill='url(%23bambooL2)'/%3E%3Crect x='85' y='60' width='6' height='840' fill='url(%23highlightL)'/%3E%3Crect x='82' y='180' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='82' y='310' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='82' y='440' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='82' y='570' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='82' y='700' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Crect x='82' y='830' width='30' height='9' rx='3' fill='url(%23nodeL)'/%3E%3Cpath d='M112 178 Q150 158 185 175 Q145 183 112 193' fill='url(%23leafL2)' opacity='0.85'/%3E%3Cpath d='M82 310 Q50 292 20 308 Q52 316 82 324' fill='url(%23leafL1)' opacity='0.75'/%3E%3Cpath d='M112 570 Q155 552 190 568' fill='url(%23leafL2)' opacity='0.7'/%3E%3C!-- Bamboo 3 --%3E%3Crect x='150' y='120' width='22' height='780' fill='url(%23bambooL3)'/%3E%3Crect x='150' y='120' width='5' height='780' fill='url(%23highlightL)'/%3E%3Crect x='147' y='250' width='28' height='8' rx='2' fill='url(%23nodeL)'/%3E%3Crect x='147' y='385' width='28' height='8' rx='2' fill='url(%23nodeL)'/%3E%3Crect x='147' y='520' width='28' height='8' rx='2' fill='url(%23nodeL)'/%3E%3Crect x='147' y='655' width='28' height='8' rx='2' fill='url(%23nodeL)'/%3E%3Crect x='147' y='790' width='28' height='8' rx='2' fill='url(%23nodeL)'/%3E%3Cpath d='M175 248 Q215 228 250 245 Q210 255 175 265' fill='url(%23leafL1)' opacity='0.9'/%3E%3Cpath d='M147 520 Q115 502 80 518 Q118 528 147 538' fill='url(%23leafL2)' opacity='0.8'/%3E%3C!-- Bamboo 4 - slender accent --%3E%3Crect x='210' y='180' width='18' height='720' fill='url(%23bambooL1)' opacity='0.85'/%3E%3Crect x='207' y='300' width='24' height='7' rx='2' fill='url(%23nodeL)' opacity='0.85'/%3E%3Crect x='207' y='440' width='24' height='7' rx='2' fill='url(%23nodeL)' opacity='0.85'/%3E%3Crect x='207' y='580' width='24' height='7' rx='2' fill='url(%23nodeL)' opacity='0.85'/%3E%3Crect x='207' y='720' width='24' height='7' rx='2' fill='url(%23nodeL)' opacity='0.85'/%3E%3Cpath d='M231 298 Q265 282 295 296' fill='url(%23leafL2)' opacity='0.75'/%3E%3Cpath d='M231 580 Q268 562 305 578' fill='url(%23leafL1)' opacity='0.7'/%3E%3C!-- Bamboo 5 - background depth --%3E%3Crect x='270' y='260' width='14' height='640' fill='url(%23bambooL2)' opacity='0.6'/%3E%3Crect x='267' y='380' width='20' height='6' rx='2' fill='url(%23nodeL)' opacity='0.55'/%3E%3Crect x='267' y='520' width='20' height='6' rx='2' fill='url(%23nodeL)' opacity='0.55'/%3E%3Crect x='267' y='660' width='20' height='6' rx='2' fill='url(%23nodeL)' opacity='0.55'/%3E%3C!-- Background stalks for depth --%3E%3Crect x='320' y='320' width='11' height='580' fill='url(%23bambooL3)' opacity='0.4'/%3E%3Crect x='360' y='380' width='9' height='520' fill='url(%23bambooL1)' opacity='0.3'/%3E%3Crect x='395' y='430' width='7' height='470' fill='url(%23bambooL2)' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left bottom;
-    opacity: 0.95;
+    opacity: 1;
     pointer-events: none;
     z-index: 1;
-    animation: bambooSway 20s ease-in-out infinite;
+    animation: bambooSway 25s ease-in-out infinite;
     transform-origin: bottom center;
 }
 
 /* Bamboo stalks - right cluster */
 .theme-bamboo .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
-    width: 45%;
-    height: 95%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 760' preserveAspectRatio='xMaxYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='bambooR1' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23153520'/%3E%3Cstop offset='30%25' stop-color='%231f4530'/%3E%3Cstop offset='70%25' stop-color='%231a3d28'/%3E%3Cstop offset='100%25' stop-color='%23122d1e'/%3E%3C/linearGradient%3E%3ClinearGradient id='bambooR2' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a3d28'/%3E%3Cstop offset='30%25' stop-color='%23264d38'/%3E%3Cstop offset='70%25' stop-color='%231f4530'/%3E%3Cstop offset='100%25' stop-color='%23163525'/%3E%3C/linearGradient%3E%3ClinearGradient id='nodeR' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23112418'/%3E%3Cstop offset='50%25' stop-color='%23163020'/%3E%3Cstop offset='100%25' stop-color='%230f2015'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafR' x1='0%25' y1='50%25' x2='100%25' y2='50%25'%3E%3Cstop offset='0%25' stop-color='%23285538'/%3E%3Cstop offset='50%25' stop-color='%23326545'/%3E%3Cstop offset='100%25' stop-color='%23264d35'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3C!-- Bamboo R1 - far right, tall --%3E%3Crect x='310' y='50' width='20' height='710' fill='url(%23bambooR1)'/%3E%3Crect x='308' y='150' width='24' height='7' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='308' y='270' width='24' height='7' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='308' y='390' width='24' height='7' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='308' y='510' width='24' height='7' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='308' y='630' width='24' height='7' rx='2' fill='url(%23nodeR)'/%3E%3Cpath d='M308 150 Q280 138 255 148 Q282 154 308 160' fill='url(%23leafR)' opacity='0.9'/%3E%3Cpath d='M308 390 Q278 378 252 388 Q280 394 308 400' fill='url(%23leafR)' opacity='0.85'/%3E%3Cpath d='M308 630 Q282 618 258 628' fill='url(%23leafR)' opacity='0.8'/%3E%3C!-- Bamboo R2 - second from right --%3E%3Crect x='265' y='100' width='18' height='660' fill='url(%23bambooR2)'/%3E%3Crect x='263' y='200' width='22' height='6' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='263' y='320' width='22' height='6' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='263' y='440' width='22' height='6' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='263' y='560' width='22' height='6' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='263' y='680' width='22' height='6' rx='2' fill='url(%23nodeR)'/%3E%3Cpath d='M263 200 Q238 188 215 198 Q240 204 263 210' fill='url(%23leafR)' opacity='0.85'/%3E%3Cpath d='M285 320 Q308 310 328 318' fill='url(%23leafR)' opacity='0.8'/%3E%3Cpath d='M263 560 Q240 548 218 558' fill='url(%23leafR)' opacity='0.75'/%3E%3C!-- Bamboo R3 - mid right --%3E%3Crect x='215' y='180' width='16' height='580' fill='url(%23bambooR1)' opacity='0.85'/%3E%3Crect x='213' y='280' width='20' height='6' rx='2' fill='url(%23nodeR)' opacity='0.85'/%3E%3Crect x='213' y='400' width='20' height='6' rx='2' fill='url(%23nodeR)' opacity='0.85'/%3E%3Crect x='213' y='520' width='20' height='6' rx='2' fill='url(%23nodeR)' opacity='0.85'/%3E%3Crect x='213' y='640' width='20' height='6' rx='2' fill='url(%23nodeR)' opacity='0.85'/%3E%3Cpath d='M231 280 Q255 270 275 278' fill='url(%23leafR)' opacity='0.75'/%3E%3Cpath d='M213 520 Q188 510 165 518' fill='url(%23leafR)' opacity='0.7'/%3E%3C!-- Thin accent stalks --%3E%3Crect x='165' y='250' width='12' height='510' fill='url(%23bambooR2)' opacity='0.6'/%3E%3Crect x='163' y='350' width='16' height='5' rx='1' fill='url(%23nodeR)' opacity='0.6'/%3E%3Crect x='163' y='470' width='16' height='5' rx='1' fill='url(%23nodeR)' opacity='0.6'/%3E%3Crect x='163' y='590' width='16' height='5' rx='1' fill='url(%23nodeR)' opacity='0.6'/%3E%3Crect x='120' y='320' width='10' height='440' fill='url(%23bambooR1)' opacity='0.45'/%3E%3Crect x='118' y='420' width='14' height='4' rx='1' fill='url(%23nodeR)' opacity='0.45'/%3E%3Crect x='118' y='540' width='14' height='4' rx='1' fill='url(%23nodeR)' opacity='0.45'/%3E%3Crect x='80' y='380' width='8' height='380' fill='url(%23bambooR2)' opacity='0.35'/%3E%3Crect x='45' y='420' width='7' height='340' fill='url(%23bambooR1)' opacity='0.25'/%3E%3C/g%3E%3C/svg%3E");
+    width: 50%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 900' preserveAspectRatio='xMaxYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='bambooR1' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230a1e14'/%3E%3Cstop offset='20%25' stop-color='%23153824'/%3E%3Cstop offset='50%25' stop-color='%231c4a32'/%3E%3Cstop offset='80%25' stop-color='%23143522'/%3E%3Cstop offset='100%25' stop-color='%230d2618'/%3E%3C/linearGradient%3E%3ClinearGradient id='bambooR2' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230c2416'/%3E%3Cstop offset='25%25' stop-color='%23184028'/%3E%3Cstop offset='50%25' stop-color='%23205538'/%3E%3Cstop offset='75%25' stop-color='%23163a28'/%3E%3Cstop offset='100%25' stop-color='%23102d1c'/%3E%3C/linearGradient%3E%3ClinearGradient id='bambooR3' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23081c10'/%3E%3Cstop offset='30%25' stop-color='%23133820'/%3E%3Cstop offset='70%25' stop-color='%23102e1a'/%3E%3Cstop offset='100%25' stop-color='%230e2a1a'/%3E%3C/linearGradient%3E%3ClinearGradient id='nodeR' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23061408'/%3E%3Cstop offset='50%25' stop-color='%230d2518'/%3E%3Cstop offset='100%25' stop-color='%23081810'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafR1' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231a4530'/%3E%3Cstop offset='50%25' stop-color='%23255a42'/%3E%3Cstop offset='100%25' stop-color='%23183e2a'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafR2' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231c4a35'/%3E%3Cstop offset='50%25' stop-color='%23286550'/%3E%3Cstop offset='100%25' stop-color='%23164030'/%3E%3C/linearGradient%3E%3ClinearGradient id='highlightR' x1='100%25' y1='0%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='rgba(100,180,130,0.12)'/%3E%3Cstop offset='100%25' stop-color='rgba(50,90,65,0)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3C!-- Main bamboo 1 --%3E%3Crect x='350' y='30' width='26' height='870' fill='url(%23bambooR1)'/%3E%3Crect x='368' y='30' width='8' height='870' fill='url(%23highlightR)'/%3E%3Crect x='347' y='150' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='347' y='290' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='347' y='430' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='347' y='570' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='347' y='710' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='347' y='850' width='32' height='10' rx='3' fill='url(%23nodeR)'/%3E%3Cpath d='M347 148 Q305 125 265 145 Q310 155 347 165' fill='url(%23leafR1)' opacity='0.9'/%3E%3Cpath d='M347 430 Q300 408 258 428 Q305 440 347 450' fill='url(%23leafR1)' opacity='0.85'/%3E%3Cpath d='M347 710 Q308 690 270 708' fill='url(%23leafR2)' opacity='0.8'/%3E%3C!-- Bamboo 2 --%3E%3Crect x='300' y='80' width='22' height='820' fill='url(%23bambooR2)'/%3E%3Crect x='316' y='80' width='6' height='820' fill='url(%23highlightR)'/%3E%3Crect x='297' y='200' width='28' height='9' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='297' y='340' width='28' height='9' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='297' y='480' width='28' height='9' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='297' y='620' width='28' height='9' rx='3' fill='url(%23nodeR)'/%3E%3Crect x='297' y='760' width='28' height='9' rx='3' fill='url(%23nodeR)'/%3E%3Cpath d='M297 198 Q260 178 225 195 Q262 206 297 216' fill='url(%23leafR2)' opacity='0.85'/%3E%3Cpath d='M322 340 Q358 322 390 338' fill='url(%23leafR1)' opacity='0.75'/%3E%3Cpath d='M297 620 Q255 602 218 618' fill='url(%23leafR2)' opacity='0.7'/%3E%3C!-- Bamboo 3 --%3E%3Crect x='245' y='140' width='20' height='760' fill='url(%23bambooR3)'/%3E%3Crect x='260' y='140' width='5' height='760' fill='url(%23highlightR)'/%3E%3Crect x='242' y='280' width='26' height='8' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='242' y='420' width='26' height='8' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='242' y='560' width='26' height='8' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='242' y='700' width='26' height='8' rx='2' fill='url(%23nodeR)'/%3E%3Crect x='242' y='840' width='26' height='8' rx='2' fill='url(%23nodeR)'/%3E%3Cpath d='M242 278 Q205 258 168 275 Q208 288 242 298' fill='url(%23leafR1)' opacity='0.85'/%3E%3Cpath d='M265 560 Q302 542 340 558' fill='url(%23leafR2)' opacity='0.75'/%3E%3C!-- Bamboo 4 --%3E%3Crect x='190' y='200' width='16' height='700' fill='url(%23bambooR1)' opacity='0.8'/%3E%3Crect x='187' y='330' width='22' height='7' rx='2' fill='url(%23nodeR)' opacity='0.8'/%3E%3Crect x='187' y='470' width='22' height='7' rx='2' fill='url(%23nodeR)' opacity='0.8'/%3E%3Crect x='187' y='610' width='22' height='7' rx='2' fill='url(%23nodeR)' opacity='0.8'/%3E%3Crect x='187' y='750' width='22' height='7' rx='2' fill='url(%23nodeR)' opacity='0.8'/%3E%3Cpath d='M187 328 Q152 310 118 326' fill='url(%23leafR1)' opacity='0.7'/%3E%3C!-- Background stalks --%3E%3Crect x='135' y='280' width='12' height='620' fill='url(%23bambooR2)' opacity='0.55'/%3E%3Crect x='132' y='410' width='18' height='5' rx='1' fill='url(%23nodeR)' opacity='0.5'/%3E%3Crect x='132' y='560' width='18' height='5' rx='1' fill='url(%23nodeR)' opacity='0.5'/%3E%3Crect x='85' y='340' width='10' height='560' fill='url(%23bambooR3)' opacity='0.4'/%3E%3Crect x='40' y='400' width='8' height='500' fill='url(%23bambooR1)' opacity='0.28'/%3E%3Crect x='5' y='450' width='6' height='450' fill='url(%23bambooR2)' opacity='0.18'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right bottom;
-    opacity: 0.9;
+    opacity: 0.95;
     pointer-events: none;
     z-index: 1;
-    animation: bambooSwayReverse 22s ease-in-out infinite;
+    animation: bambooSwayReverse 28s ease-in-out infinite;
     transform-origin: bottom center;
 }
 
-/* Mist/fog layers */
+/* Zen garden elements - stones and water at bottom */
 .theme-bamboo .gradient-overlay::before {
     content: '';
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40%;
-    background: 
-        linear-gradient(180deg, 
+    height: 45%;
+    background:
+        /* Water reflection shimmer */
+        linear-gradient(90deg,
             transparent 0%,
-            rgba(180, 210, 190, 0.03) 30%,
-            rgba(160, 195, 175, 0.06) 50%,
-            rgba(140, 180, 160, 0.08) 70%,
-            rgba(120, 165, 145, 0.05) 100%);
-    animation: mistDrift 25s ease-in-out infinite alternate;
+            rgba(80, 200, 120, 0.02) 20%,
+            rgba(100, 180, 140, 0.04) 40%,
+            rgba(80, 200, 120, 0.02) 60%,
+            transparent 80%),
+        /* Multi-layer mist */
+        linear-gradient(180deg,
+            transparent 0%,
+            rgba(180, 220, 200, 0.02) 20%,
+            rgba(160, 210, 185, 0.05) 40%,
+            rgba(140, 200, 170, 0.08) 55%,
+            rgba(120, 190, 155, 0.10) 70%,
+            rgba(100, 180, 140, 0.06) 85%,
+            rgba(80, 160, 120, 0.03) 100%),
+        /* Zen pond reflection */
+        radial-gradient(ellipse at 50% 95%, rgba(80, 200, 120, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 100%, rgba(100, 180, 140, 0.05) 0%, transparent 30%),
+        radial-gradient(ellipse at 70% 100%, rgba(90, 190, 130, 0.05) 0%, transparent 30%);
+    animation: mistDrift 30s ease-in-out infinite alternate;
     pointer-events: none;
     z-index: 2;
 }
 
-/* Fireflies / light particles */
+/* Fireflies with warm golden glow */
 .theme-bamboo .gradient-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background:
-        radial-gradient(circle at 15% 30%, rgba(200, 255, 180, 0.4) 0%, rgba(200, 255, 180, 0.4) 2px, transparent 3px),
-        radial-gradient(circle at 35% 55%, rgba(180, 255, 160, 0.35) 0%, rgba(180, 255, 160, 0.35) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 55% 25%, rgba(220, 255, 200, 0.3) 0%, rgba(220, 255, 200, 0.3) 2px, transparent 3px),
-        radial-gradient(circle at 75% 45%, rgba(190, 255, 170, 0.4) 0%, rgba(190, 255, 170, 0.4) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 25% 70%, rgba(200, 255, 180, 0.35) 0%, rgba(200, 255, 180, 0.35) 2px, transparent 3px),
-        radial-gradient(circle at 65% 65%, rgba(210, 255, 190, 0.3) 0%, rgba(210, 255, 190, 0.3) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 45% 40%, rgba(180, 255, 160, 0.4) 0%, rgba(180, 255, 160, 0.4) 2px, transparent 3px),
-        radial-gradient(circle at 85% 75%, rgba(200, 255, 180, 0.35) 0%, rgba(200, 255, 180, 0.35) 1.5px, transparent 2.5px);
-    background-size: 400px 350px;
-    animation: fireflyFloat 18s ease-in-out infinite;
+        /* Golden fireflies - warm accent */
+        radial-gradient(circle at 18% 25%, rgba(212, 175, 55, 0.6) 0%, rgba(212, 175, 55, 0.3) 2px, transparent 4px),
+        radial-gradient(circle at 42% 18%, rgba(255, 220, 100, 0.5) 0%, rgba(255, 220, 100, 0.2) 2px, transparent 4px),
+        radial-gradient(circle at 78% 32%, rgba(212, 175, 55, 0.55) 0%, rgba(212, 175, 55, 0.25) 2px, transparent 4px),
+        /* Green fireflies - jade glow */
+        radial-gradient(circle at 28% 52%, rgba(120, 220, 150, 0.5) 0%, rgba(120, 220, 150, 0.2) 2px, transparent 4px),
+        radial-gradient(circle at 55% 38%, rgba(100, 200, 130, 0.45) 0%, rgba(100, 200, 130, 0.15) 1.5px, transparent 3.5px),
+        radial-gradient(circle at 72% 58%, rgba(140, 230, 160, 0.5) 0%, rgba(140, 230, 160, 0.2) 2px, transparent 4px),
+        /* More golden accents */
+        radial-gradient(circle at 15% 68%, rgba(255, 200, 80, 0.45) 0%, rgba(255, 200, 80, 0.15) 1.5px, transparent 3.5px),
+        radial-gradient(circle at 85% 45%, rgba(212, 175, 55, 0.5) 0%, rgba(212, 175, 55, 0.2) 2px, transparent 4px),
+        /* Jade particles scattered */
+        radial-gradient(circle at 38% 72%, rgba(80, 200, 120, 0.45) 0%, rgba(80, 200, 120, 0.15) 1.5px, transparent 3px),
+        radial-gradient(circle at 62% 82%, rgba(100, 210, 140, 0.4) 0%, rgba(100, 210, 140, 0.1) 2px, transparent 4px),
+        radial-gradient(circle at 48% 62%, rgba(120, 200, 150, 0.35) 0%, rgba(120, 200, 150, 0.1) 1.5px, transparent 3px),
+        radial-gradient(circle at 88% 72%, rgba(140, 220, 160, 0.4) 0%, rgba(140, 220, 160, 0.1) 2px, transparent 4px);
+    background-size: 500px 450px;
+    animation: fireflyFloat 22s ease-in-out infinite;
     pointer-events: none;
     z-index: 3;
 }
@@ -479,7 +533,7 @@ body {
 /* Maple tree branches - left side */
 .theme-momiji .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -5%;
     width: 55%;
@@ -496,7 +550,7 @@ body {
 /* Maple tree branches - right side */
 .theme-momiji .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     right: -5%;
     width: 50%;
@@ -513,7 +567,7 @@ body {
 /* Falling maple leaves - sparse and gentle */
 .theme-momiji .gradient-overlay::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: 
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c41e3a' opacity='0.7' d='M50 45 l4-7 l1 5 l5-2 l-2 5 l6 1 l-5 3 l3 5 l-5-2 l-1 6 l-3-5 l-4 4 l1-6 l-6 0 l4-4 l-4-4 Z'/%3E%3C/svg%3E"),
@@ -529,7 +583,7 @@ body {
 /* Warm ember glow and sun rays */
 .theme-momiji .gradient-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background:
         /* Sun rays from top right */
@@ -565,7 +619,7 @@ body {
 /* Primary kintsugi crack pattern - branching golden lines */
 .theme-kintsugi .bg-animation::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='gold1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffd700'/%3E%3Cstop offset='50%25' stop-color='%23f0c040'/%3E%3Cstop offset='100%25' stop-color='%23daa520'/%3E%3C/linearGradient%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='1.5' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23gold1)' stroke-linecap='round' filter='url(%23glow)'%3E%3C!-- Main crack 1 - top left branching --%3E%3Cpath stroke-width='2' d='M0 120 L80 140 L150 135 L180 160 L250 155'/%3E%3Cpath stroke-width='1.5' d='M80 140 L100 180 L140 220 L130 280'/%3E%3Cpath stroke-width='1' d='M100 180 L70 230 L85 290'/%3E%3Cpath stroke-width='1.5' d='M150 135 L175 100 L220 80'/%3E%3Cpath stroke-width='1' d='M175 100 L200 130 L230 120'/%3E%3C!-- Main crack 2 - center diagonal --%3E%3Cpath stroke-width='2.5' d='M300 0 L320 80 L380 150 L400 200 L450 280 L480 350 L520 400'/%3E%3Cpath stroke-width='1.5' d='M380 150 L420 140 L480 160 L530 150'/%3E%3Cpath stroke-width='1' d='M420 140 L440 100 L420 60'/%3E%3Cpath stroke-width='1.5' d='M450 280 L500 260 L560 280 L600 260'/%3E%3Cpath stroke-width='1' d='M500 260 L520 220 L580 200'/%3E%3Cpath stroke-width='2' d='M480 350 L530 380 L600 400 L680 420'/%3E%3Cpath stroke-width='1' d='M530 380 L550 430 L590 480'/%3E%3C!-- Main crack 3 - right side --%3E%3Cpath stroke-width='2' d='M800 200 L720 230 L680 280 L650 340 L660 400 L640 480'/%3E%3Cpath stroke-width='1.5' d='M720 230 L750 280 L730 350'/%3E%3Cpath stroke-width='1' d='M750 280 L790 320 L800 380'/%3E%3Cpath stroke-width='1.5' d='M680 280 L630 260 L580 280'/%3E%3Cpath stroke-width='1' d='M630 260 L620 220 L580 180'/%3E%3C!-- Main crack 4 - bottom branching --%3E%3Cpath stroke-width='2' d='M100 600 L130 520 L180 470 L250 440 L320 460'/%3E%3Cpath stroke-width='1.5' d='M180 470 L160 420 L190 360 L170 300'/%3E%3Cpath stroke-width='1' d='M160 420 L120 400 L80 420'/%3E%3Cpath stroke-width='1.5' d='M250 440 L280 400 L260 350 L290 300'/%3E%3Cpath stroke-width='1' d='M280 400 L330 380 L380 400'/%3E%3C!-- Small accent cracks --%3E%3Cpath stroke-width='1' d='M550 50 L580 90 L560 140 L590 180'/%3E%3Cpath stroke-width='0.8' d='M580 90 L620 80 L660 100'/%3E%3Cpath stroke-width='1' d='M200 350 L240 380 L220 430 L260 470'/%3E%3Cpath stroke-width='0.8' d='M240 380 L280 360 L320 380'/%3E%3Cpath stroke-width='1' d='M700 500 L660 540 L690 580 L650 600'/%3E%3Cpath stroke-width='0.8' d='M660 540 L620 520 L580 550'/%3E%3C/g%3E%3C/svg%3E");
     background-size: cover;
@@ -578,7 +632,7 @@ body {
 /* Secondary crack layer - different pattern for depth */
 .theme-kintsugi .bg-animation::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='gold2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffc125'/%3E%3Cstop offset='50%25' stop-color='%23e8a820'/%3E%3Cstop offset='100%25' stop-color='%23c9922c'/%3E%3C/linearGradient%3E%3Cfilter id='glow2'%3E%3CfeGaussianBlur stdDeviation='2' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23gold2)' stroke-linecap='round' filter='url(%23glow2)'%3E%3Cpath stroke-width='1.5' d='M50 300 L100 280 L150 320 L200 300 L280 340 L350 310'/%3E%3Cpath stroke-width='1' d='M150 320 L140 380 L180 430 L150 500'/%3E%3Cpath stroke-width='0.8' d='M140 380 L90 400 L60 450'/%3E%3Cpath stroke-width='1.5' d='M400 100 L430 160 L420 230 L460 300 L440 380'/%3E%3Cpath stroke-width='1' d='M430 160 L480 180 L530 160 L570 200'/%3E%3Cpath stroke-width='0.8' d='M480 180 L500 140 L480 100'/%3E%3Cpath stroke-width='1.5' d='M300 500 L340 540 L320 600 L360 660 L330 720 L370 780'/%3E%3Cpath stroke-width='1' d='M340 540 L400 560 L450 540 L500 580'/%3E%3Cpath stroke-width='0.8' d='M400 560 L420 620 L390 680'/%3E%3Cpath stroke-width='1' d='M500 400 L540 450 L520 520 L560 580'/%3E%3Cpath stroke-width='0.8' d='M540 450 L590 440 L600 490'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 120% 120%;
@@ -592,7 +646,7 @@ body {
 /* Golden glow accent points */
 .theme-kintsugi .gradient-overlay::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background:
         radial-gradient(circle at 30% 15%, rgba(255, 215, 0, 0.15) 0%, transparent 8%),
@@ -610,7 +664,7 @@ body {
 /* Subtle ceramic texture overlay */
 .theme-kintsugi .gradient-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     opacity: 0.4;
@@ -699,64 +753,127 @@ body {
     }
 }
 
-/* Bamboo Zen animations */
+/* Bamboo Zen animations - Enhanced for tranquility */
 @keyframes bambooSway {
-    0%, 100% { 
-        transform: rotate(0deg);
+    0%, 100% {
+        transform: rotate(0deg) translateX(0);
     }
-    25% { 
-        transform: rotate(0.3deg);
+    15% {
+        transform: rotate(0.2deg) translateX(0.5px);
     }
-    75% { 
-        transform: rotate(-0.3deg);
+    35% {
+        transform: rotate(0.35deg) translateX(1px);
+    }
+    50% {
+        transform: rotate(0.15deg) translateX(0.3px);
+    }
+    65% {
+        transform: rotate(-0.2deg) translateX(-0.5px);
+    }
+    85% {
+        transform: rotate(-0.3deg) translateX(-0.8px);
     }
 }
 
 @keyframes bambooSwayReverse {
-    0%, 100% { 
-        transform: rotate(0deg);
+    0%, 100% {
+        transform: rotate(0deg) translateX(0);
     }
-    25% { 
-        transform: rotate(-0.25deg);
+    20% {
+        transform: rotate(-0.25deg) translateX(-0.6px);
     }
-    75% { 
-        transform: rotate(0.25deg);
+    40% {
+        transform: rotate(-0.15deg) translateX(-0.3px);
+    }
+    60% {
+        transform: rotate(0.2deg) translateX(0.5px);
+    }
+    80% {
+        transform: rotate(0.3deg) translateX(0.7px);
     }
 }
 
 @keyframes mistDrift {
-    0% { 
-        opacity: 0.6;
-        transform: translateX(-2%);
+    0% {
+        opacity: 0.5;
+        transform: translateX(-3%) translateY(0);
+        filter: blur(0px);
     }
-    50% { 
+    25% {
+        opacity: 0.8;
+        transform: translateX(0%) translateY(-1%);
+    }
+    50% {
         opacity: 1;
-        transform: translateX(2%);
+        transform: translateX(3%) translateY(0);
+        filter: blur(0.5px);
     }
-    100% { 
+    75% {
         opacity: 0.7;
-        transform: translateX(-1%);
+        transform: translateX(1%) translateY(1%);
+    }
+    100% {
+        opacity: 0.5;
+        transform: translateX(-3%) translateY(0);
+        filter: blur(0px);
     }
 }
 
 @keyframes fireflyFloat {
-    0% { 
-        opacity: 0.4;
+    0% {
+        opacity: 0.3;
         background-position: 0 0;
+        filter: blur(0px);
     }
-    25% { 
-        opacity: 0.7;
-    }
-    50% { 
-        opacity: 0.5;
-        background-position: 50px -30px;
-    }
-    75% { 
+    15% {
         opacity: 0.8;
+        filter: blur(0.3px);
     }
-    100% { 
+    30% {
+        opacity: 0.5;
+        background-position: 30px -20px;
+    }
+    45% {
+        opacity: 0.9;
+        filter: blur(0.5px);
+    }
+    60% {
         opacity: 0.4;
-        background-position: 100px 0;
+        background-position: 70px 15px;
+        filter: blur(0.2px);
+    }
+    75% {
+        opacity: 0.85;
+        background-position: 100px -10px;
+    }
+    90% {
+        opacity: 0.5;
+        filter: blur(0.4px);
+    }
+    100% {
+        opacity: 0.3;
+        background-position: 120px 0;
+        filter: blur(0px);
+    }
+}
+
+/* Water shimmer animation for zen pond effect */
+@keyframes waterShimmer {
+    0%, 100% {
+        opacity: 0.6;
+        background-position: 0% 0%;
+    }
+    25% {
+        opacity: 0.8;
+        background-position: 25% 5%;
+    }
+    50% {
+        opacity: 0.7;
+        background-position: 50% 0%;
+    }
+    75% {
+        opacity: 0.85;
+        background-position: 75% -5%;
     }
 }
 
@@ -1318,12 +1435,26 @@ body {
     padding-top: 70px;
     position: relative;
     min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
 }
 
-.app-container > .bg-animation {
-    position: fixed;
-    inset: 0;
+/* App background - separate element for proper fixed positioning */
+.app-bg-animation.bg-animation {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
     z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.app-bg-animation.hidden {
+    display: none;
 }
 
 .app-container > section {
@@ -1641,24 +1772,27 @@ body {
     font-weight: 500;
 }
 
-/* Team Status Card */
+/* Team Status Card - Full Width at Bottom */
 .team-status {
-    grid-column: span 4;
+    grid-column: span 12;
 }
 
 .team-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    justify-content: space-between;
     gap: var(--spacing-md);
 }
 
 .team-member {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: var(--spacing-sm);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
     background: var(--bg-elevated);
     border-radius: var(--radius-md);
+    flex: 1;
+    text-align: center;
 }
 
 .team-member-avatar {
@@ -1692,6 +1826,91 @@ body {
 
 .team-member-status.ready {
     color: var(--success);
+}
+
+/* Budget Overview Card */
+.budget-overview {
+    grid-column: span 4;
+}
+
+.budget-tiers-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.budget-responders {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: var(--spacing-sm);
+}
+
+.budget-category-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.budget-category-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.budget-cat-icon {
+    font-size: 1rem;
+}
+
+.budget-tier-counts {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex: 1;
+}
+
+.tier-count-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    min-width: 50px;
+    flex: 1;
+    opacity: 0.4;
+    transition: all var(--transition-fast);
+}
+
+.tier-count-item.has-votes {
+    opacity: 1;
+    background: rgba(255, 92, 141, 0.1);
+    border: 1px solid rgba(255, 92, 141, 0.2);
+}
+
+.tier-count-japanese {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: var(--font-display);
+}
+
+.tier-count-item.has-votes .tier-count-japanese {
+    color: var(--sakura-light);
+}
+
+.tier-count-num {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.tier-count-item.has-votes .tier-count-num {
+    color: var(--sakura-medium);
 }
 
 /* ========================================
@@ -1744,12 +1963,26 @@ body {
     .trip-overview,
     .top-destinations,
     .top-attractions,
-    .team-status {
+    .budget-overview {
         grid-column: span 3;
     }
     
     .availability-timeline {
         grid-column: span 6;
+    }
+    
+    .team-status {
+        grid-column: span 6;
+    }
+    
+    .team-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .team-member {
+        flex: 0 0 auto;
+        min-width: 100px;
     }
 }
 
@@ -1829,8 +2062,18 @@ body {
     .availability-timeline,
     .top-destinations,
     .top-attractions,
+    .budget-overview,
     .team-status {
         grid-column: span 1;
+    }
+    
+    .team-grid {
+        flex-direction: column;
+    }
+    
+    .team-member {
+        flex-direction: row;
+        text-align: left;
     }
     
     .main-title {

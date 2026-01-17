@@ -64,14 +64,26 @@ function updateDaysAllocated() {
 // ========================================
 
 function renderDestinations(allCityDays) {
-    destinationsGrid.innerHTML = citiesData.map(city => {
+    // Calculate stats for each city and sort
+    const citiesWithStats = citiesData.map(city => {
+        const cityUsers = allCityDays.filter(d => d.city_id === city.id);
+        const totalDays = cityUsers.reduce((sum, d) => sum + d.days, 0);
+        const avgDays = cityUsers.length > 0 ? totalDays / cityUsers.length : 0;
+        return { ...city, cityUsers, totalDays, avgDays };
+    });
+    
+    // Sort by average days (descending), then alphabetically
+    citiesWithStats.sort((a, b) => {
+        if (b.avgDays !== a.avgDays) return b.avgDays - a.avgDays;
+        return a.name.localeCompare(b.name);
+    });
+    
+    destinationsGrid.innerHTML = citiesWithStats.map(city => {
         const userDays = userCityDaysData.find(d => d.city_id === city.id);
         const days = userDays ? userDays.days : 0;
         
         // Calculate popularity
-        const cityUsers = allCityDays.filter(d => d.city_id === city.id);
-        const totalDays = cityUsers.reduce((sum, d) => sum + d.days, 0);
-        const popularity = (cityUsers.length / users.length) * 100;
+        const popularity = (city.cityUsers.length / users.length) * 100;
         
         const highlights = city.highlights || [];
         
@@ -103,14 +115,14 @@ function renderDestinations(allCityDays) {
                         </div>
                     </div>
                     
-                    ${cityUsers.length > 0 ? `
+                    ${city.cityUsers.length > 0 ? `
                         <div class="destination-popularity">
                             <div class="popularity-bar">
                                 <div class="popularity-fill" style="width: ${popularity}%"></div>
                             </div>
                             <p class="popularity-text">
-                                <span>${cityUsers.length}</span> of ${users.length} travelers want to visit 
-                                (${totalDays} total days)
+                                <span>${city.cityUsers.length}</span> of ${users.length} travelers want to visit 
+                                (${city.avgDays.toFixed(1)} days avg)
                             </p>
                         </div>
                     ` : ''}
@@ -123,6 +135,162 @@ function renderDestinations(allCityDays) {
     destinationsGrid.querySelectorAll('.days-btn').forEach(btn => {
         btn.addEventListener('click', handleDaysChange);
     });
+    
+    // Add click listeners for expanding cards
+    destinationsGrid.querySelectorAll('.destination-card').forEach(card => {
+        card.addEventListener('click', handleDestinationClick);
+    });
+}
+
+// ========================================
+// EXPANDED DESTINATION VIEW
+// ========================================
+
+async function handleDestinationClick(e) {
+    // Don't expand if clicking on days control buttons
+    if (e.target.closest('.days-btn') || e.target.closest('.days-control')) {
+        return;
+    }
+    
+    const card = e.currentTarget;
+    const cityId = card.dataset.cityId;
+    const city = citiesData.find(c => c.id === cityId);
+    
+    if (!city) return;
+    
+    // Get attractions for this city
+    const allAttractions = await getAttractions();
+    const cityAttractions = allAttractions.filter(a => a.city_id === cityId);
+    
+    // Get votes for attractions
+    const allVotes = await getVotes();
+    
+    showExpandedDestination(city, cityAttractions, allVotes, card);
+}
+
+function showExpandedDestination(city, attractions, votes, originalCard) {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'destination-overlay';
+    overlay.innerHTML = `
+        <div class="destination-expanded" data-city-id="${city.id}">
+            <button class="expanded-close-btn" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div class="expanded-header">
+                <div class="expanded-image-wrapper">
+                    <img class="expanded-image" src="${city.image_url}" alt="${city.name}"
+                         onerror="this.src='https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80'">
+                    <div class="expanded-image-overlay">
+                        <h2 class="expanded-name">${city.name}</h2>
+                        <span class="expanded-japanese">${city.japanese_name || CITY_JAPANESE[city.name] || ''}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="expanded-content">
+                <p class="expanded-description">${city.description}</p>
+                
+                ${city.highlights && city.highlights.length > 0 ? `
+                    <div class="expanded-highlights">
+                        ${city.highlights.map(h => `<span class="highlight-tag">${h}</span>`).join('')}
+                    </div>
+                ` : ''}
+                
+                <div class="expanded-attractions-section">
+                    <h3 class="expanded-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Activities in ${city.name}
+                        <span class="attractions-count">${attractions.length}</span>
+                    </h3>
+                    
+                    ${attractions.length > 0 ? `
+                        <div class="expanded-attractions-grid">
+                            ${attractions.map(attr => {
+                                const attrVotes = votes.filter(v => v.attraction_id === attr.id);
+                                const upvotes = attrVotes.filter(v => v.vote > 0).length;
+                                const downvotes = attrVotes.filter(v => v.vote < 0).length;
+                                const score = upvotes - downvotes;
+                                
+                                return `
+                                    <div class="expanded-attraction-card">
+                                        <img class="expanded-attraction-image" src="${attr.image_url}" alt="${attr.name}"
+                                             onerror="this.src='https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80'">
+                                        <div class="expanded-attraction-content">
+                                            <h4 class="expanded-attraction-name">${attr.name}</h4>
+                                            <p class="expanded-attraction-description">${attr.description}</p>
+                                            ${attr.time_estimate ? `
+                                                <div class="expanded-attraction-time">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                                                        <circle cx="12" cy="12" r="10"/>
+                                                        <polyline points="12 6 12 12 16 14"/>
+                                                    </svg>
+                                                    <span>${attr.time_estimate}</span>
+                                                </div>
+                                            ` : ''}
+                                            <div class="expanded-attraction-votes">
+                                                <span class="vote-indicator ${score > 0 ? 'positive' : score < 0 ? 'negative' : ''}">
+                                                    ${score > 0 ? '👍' : score < 0 ? '👎' : '○'} ${score > 0 ? '+' : ''}${score}
+                                                </span>
+                                                <span class="vote-count">${upvotes} up / ${downvotes} down</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    ` : `
+                        <div class="no-attractions">
+                            <p>No attractions added for ${city.name} yet.</p>
+                            <p class="text-muted">Visit the Activities page to add some!</p>
+                        </div>
+                    `}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    
+    // Animate in
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+    
+    // Close handlers
+    const closeBtn = overlay.querySelector('.expanded-close-btn');
+    closeBtn.addEventListener('click', () => closeExpandedDestination(overlay));
+    
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeExpandedDestination(overlay);
+        }
+    });
+    
+    // ESC key to close
+    const escHandler = (e) => {
+        if (e.key === 'Escape') {
+            closeExpandedDestination(overlay);
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+}
+
+function closeExpandedDestination(overlay) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+        overlay.remove();
+    }, 300);
 }
 
 // ========================================

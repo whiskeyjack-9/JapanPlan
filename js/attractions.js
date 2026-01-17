@@ -80,14 +80,8 @@ function renderAttractions() {
     // Apply filters
     let filteredAttractions = [...attractionsData];
     
-    if (currentFilter === 'most-voted') {
-        // Sort by vote score
-        filteredAttractions = filteredAttractions.map(attr => {
-            const attrVotes = votesData.filter(v => v.attraction_id === attr.id);
-            const score = attrVotes.reduce((sum, v) => sum + v.vote, 0);
-            return { ...attr, score };
-        }).sort((a, b) => b.score - a.score);
-    } else if (currentFilter.startsWith('city-')) {
+    // Filter by city if applicable
+    if (currentFilter.startsWith('city-')) {
         const cityName = currentFilter.replace('city-', '');
         const city = citiesForFilter.find(c => c.name === cityName);
         if (city) {
@@ -95,10 +89,20 @@ function renderAttractions() {
         }
     }
     
+    // Calculate vote score for each attraction and sort by score (primary), then alphabetically (secondary)
+    filteredAttractions = filteredAttractions.map(attr => {
+        const attrVotes = votesData.filter(v => v.attraction_id === attr.id);
+        const score = attrVotes.reduce((sum, v) => sum + v.vote, 0);
+        return { ...attr, sortScore: score };
+    }).sort((a, b) => {
+        if (b.sortScore !== a.sortScore) return b.sortScore - a.sortScore;
+        return a.name.localeCompare(b.name);
+    });
+    
     if (filteredAttractions.length === 0) {
         attractionsGrid.innerHTML = `
             <div class="text-center text-muted" style="grid-column: 1 / -1; padding: 3rem;">
-                <p>No attractions found.</p>
+                <p>No activities found.</p>
                 <p>Click the + button to add one!</p>
             </div>
         `;
@@ -130,6 +134,16 @@ function renderAttractions() {
                         <span class="attraction-city">${cityName}</span>
                     </div>
                     <p class="attraction-description">${attr.description}</p>
+                    
+                    ${attr.time_estimate ? `
+                    <div class="attraction-time">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>${attr.time_estimate}</span>
+                    </div>
+                    ` : ''}
                     
                     <div class="attraction-voting">
                         <div class="vote-buttons">
@@ -255,7 +269,7 @@ function showAddAttractionModal() {
     ).join('');
     
     const modalHTML = `
-        <h2>Add New Attraction</h2>
+        <h2>Add New Activity</h2>
         <form class="modal-form" id="addAttractionForm">
             <div class="form-group">
                 <label for="newAttractionName">Name *</label>
@@ -272,7 +286,7 @@ function showAddAttractionModal() {
             
             <div class="form-group">
                 <label for="newAttractionDescription">Description *</label>
-                <textarea id="newAttractionDescription" rows="3" required placeholder="What makes this attraction special?"></textarea>
+                <textarea id="newAttractionDescription" rows="3" required placeholder="What makes this activity special?"></textarea>
             </div>
             
             <div class="form-group">
@@ -282,7 +296,7 @@ function showAddAttractionModal() {
             
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" onclick="hideModal()">Cancel</button>
-                <button type="submit" class="btn-primary">Add Attraction</button>
+                <button type="submit" class="btn-primary">Add Activity</button>
             </div>
         </form>
     `;
@@ -316,6 +330,6 @@ async function handleAddAttraction(e) {
         showToast(`${name} added successfully!`, 'success');
         refreshAttractions();
     } else {
-        showToast('Failed to add attraction', 'error');
+        showToast('Failed to add activity', 'error');
     }
 }

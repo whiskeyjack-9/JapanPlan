@@ -140,6 +140,13 @@ document.addEventListener('mousemove', (e) => {
     const cards = document.querySelectorAll('.destination-card, .attraction-card');
     
     cards.forEach(card => {
+        // Skip 3D effect for expanded cards and cards inside expanded overlay
+        if (card.classList.contains('destination-expanded') || 
+            card.closest('.destination-expanded') ||
+            card.closest('.destination-overlay')) {
+            return;
+        }
+        
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -158,7 +165,11 @@ document.addEventListener('mousemove', (e) => {
 document.addEventListener('mouseleave', (e) => {
     if (e.target && e.target.classList && 
         (e.target.classList.contains('destination-card') || e.target.classList.contains('attraction-card'))) {
-        e.target.style.transform = '';
+        // Don't reset transform for expanded cards
+        if (!e.target.classList.contains('destination-expanded') && 
+            !e.target.closest('.destination-overlay')) {
+            e.target.style.transform = '';
+        }
     }
 }, true);
 
