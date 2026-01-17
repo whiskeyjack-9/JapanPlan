@@ -1003,7 +1003,8 @@ body {
 
 .landing-page {
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* 3-Column Split Layout */
@@ -1015,9 +1016,9 @@ body {
 
 .landing-screen {
     min-height: 100vh;
-    height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: column;
     background: var(--bg-primary);
 }
 
@@ -1073,8 +1074,8 @@ body {
     justify-content: center;
     position: relative;
     min-height: 100vh;
-    height: 100%;
     width: 100%;
+    padding: var(--spacing-xl) 0;
 }
 
 .landing-panel-center .bg-animation {
