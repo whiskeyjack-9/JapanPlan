@@ -127,7 +127,7 @@ function renderAttractions() {
         return `
             <div class="attraction-card" data-attraction-id="${attr.id}">
                 <img class="attraction-image" src="${attr.image_url}" alt="${attr.name}"
-                     onerror="this.src='https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80'">
+                     onerror="this.src=DEFAULT_ACTIVITY_IMAGE">
                 <div class="attraction-content">
                     <div class="attraction-header">
                         <h3 class="attraction-name">${attr.name}</h3>
@@ -319,7 +319,7 @@ async function handleAddAttraction(e) {
         name,
         city_id: cityId,
         description,
-        image_url: imageUrl || 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80',
+        image_url: imageUrl || DEFAULT_ACTIVITY_IMAGE,
         created_by: currentUser.id
     };
     

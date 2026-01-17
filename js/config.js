@@ -2,6 +2,11 @@
 // JAPAN 2026 TRIP PLANNER - Configuration
 // ========================================
 
+// Default placeholder images (SVG data URIs using nav icons)
+const DEFAULT_DESTINATION_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%231a1a2e'/%3E%3Cg transform='translate(200,150)'%3E%3Cpath d='M0 -60c-33 0-60 27-60 60 0 47 60 87 60 87s60-40 60-87c0-33-27-60-60-60z' fill='none' stroke='%23ff5c8d' stroke-width='4'/%3E%3Ccircle cx='0' cy='0' r='20' fill='none' stroke='%23ff5c8d' stroke-width='4'/%3E%3C/g%3E%3Ctext x='200' y='260' text-anchor='middle' fill='%23666' font-family='sans-serif' font-size='14'%3ENo Image%3C/text%3E%3C/svg%3E";
+
+const DEFAULT_ACTIVITY_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%231a1a2e'/%3E%3Cg transform='translate(200,140)'%3E%3Cpolygon points='0,-50 13,-20 46,-15 22,10 28,43 0,27 -28,43 -22,10 -46,-15 -13,-20' fill='none' stroke='%23ffd93d' stroke-width='4'/%3E%3C/g%3E%3Ctext x='200' y='260' text-anchor='middle' fill='%23666' font-family='sans-serif' font-size='14'%3ENo Image%3C/text%3E%3C/svg%3E";
+
 // Supabase Configuration
 // Replace these with your actual Supabase project credentials
 const SUPABASE_URL = 'https://qamzcfhtibvylshhvmoh.supabase.co';

@@ -117,8 +117,9 @@ async function updateTimeline() {
         currentDate.setDate(currentDate.getDate() + 1);
     }
     
-    // Build timeline header
+    // Build timeline header with spacer for user column
     let headerHTML = '<div class="timeline-header">';
+    headerHTML += '<div class="timeline-header-spacer"></div>'; // Spacer to align with user names
     days.forEach((day, index) => {
         const isFirst = day.getDate() === 1;
         const label = isFirst ? day.toLocaleDateString('en-US', { month: 'short' }) : (index % 7 === 0 ? day.getDate() : '');
@@ -221,7 +222,7 @@ async function updateTopDestinations() {
         return `
             <div class="top-item">
                 <div class="top-item-rank">${index + 1}</div>
-                <img class="top-item-image" src="${city.image_url}" alt="${city.name}" onerror="this.style.display='none'">
+                <img class="top-item-image" src="${city.image_url}" alt="${city.name}" onerror="this.src=DEFAULT_DESTINATION_IMAGE">
                 <div class="top-item-info">
                     <div class="top-item-name">${city.name}</div>
                     <div class="top-item-meta">${city.userCount} people interested</div>
@@ -278,7 +279,7 @@ async function updateTopAttractions() {
     topAttractions.innerHTML = sortedAttractions.map((attr, index) => `
         <div class="top-item">
             <div class="top-item-rank">${index + 1}</div>
-            <img class="top-item-image" src="${attr.image_url}" alt="${attr.name}" onerror="this.style.display='none'">
+            <img class="top-item-image" src="${attr.image_url}" alt="${attr.name}" onerror="this.src=DEFAULT_ACTIVITY_IMAGE">
             <div class="top-item-info">
                 <div class="top-item-name">${attr.name}</div>
                 <div class="top-item-meta">${attr.upvotes + attr.downvotes} votes</div>

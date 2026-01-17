@@ -1623,9 +1623,16 @@ body {
 
 .timeline-header {
     display: flex;
+    align-items: center;
     gap: 2px;
     margin-bottom: var(--spacing-md);
     min-width: max-content;
+}
+
+.timeline-header-spacer {
+    width: 100px;
+    flex-shrink: 0;
+    margin-right: var(--spacing-md);
 }
 
 .timeline-day {

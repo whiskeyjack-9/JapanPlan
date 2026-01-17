@@ -91,7 +91,7 @@ function renderDestinations(allCityDays) {
             <div class="destination-card ${days > 0 ? 'selected' : ''}" data-city-id="${city.id}">
                 <div class="destination-image-wrapper">
                     <img class="destination-image" src="${city.image_url}" alt="${city.name}" 
-                         onerror="this.src='https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80'">
+                         onerror="this.src=DEFAULT_DESTINATION_IMAGE">
                     <div class="destination-image-overlay">
                         <h3 class="destination-name">${city.name}</h3>
                         <span class="destination-japanese">${city.japanese_name || CITY_JAPANESE[city.name] || ''}</span>
@@ -184,7 +184,7 @@ function showExpandedDestination(city, attractions, votes, originalCard) {
             <div class="expanded-header">
                 <div class="expanded-image-wrapper">
                     <img class="expanded-image" src="${city.image_url}" alt="${city.name}"
-                         onerror="this.src='https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80'">
+                         onerror="this.src=DEFAULT_DESTINATION_IMAGE">
                     <div class="expanded-image-overlay">
                         <h2 class="expanded-name">${city.name}</h2>
                         <span class="expanded-japanese">${city.japanese_name || CITY_JAPANESE[city.name] || ''}</span>
@@ -222,7 +222,7 @@ function showExpandedDestination(city, attractions, votes, originalCard) {
                                 return `
                                     <div class="expanded-attraction-card">
                                         <img class="expanded-attraction-image" src="${attr.image_url}" alt="${attr.name}"
-                                             onerror="this.src='https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80'">
+                                             onerror="this.src=DEFAULT_ACTIVITY_IMAGE">
                                         <div class="expanded-attraction-content">
                                             <h4 class="expanded-attraction-name">${attr.name}</h4>
                                             <p class="expanded-attraction-description">${attr.description}</p>
@@ -398,7 +398,7 @@ async function handleAddDestination(e) {
         name,
         japanese_name: japaneseName || null,
         description,
-        image_url: imageUrl || `https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80`,
+        image_url: imageUrl || DEFAULT_DESTINATION_IMAGE,
         highlights
     };
     
