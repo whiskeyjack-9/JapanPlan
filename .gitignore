@@ -1,24 +1,14 @@
-# Environment files
-.env
-scripts/.env
-
-# IDE
-.vscode/
-.idea/
+# Temp files
+tmpclaude-*
+nul
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Temporary files
-*.tmp
-tmpclaude-*
+# IDE
+.vscode/
+.idea/
 
-# Python
-__pycache__/
-*.pyc
-venv/
-.venv/
-
-# Node (if applicable)
-node_modules/
+# Don't commit terminal outputs
+terminals/
