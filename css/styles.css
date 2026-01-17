@@ -127,18 +127,18 @@
 
 /* Momiji Autumn */
 .theme-momiji {
-    --bg-primary: #1c0f0b;
-    --bg-secondary: #24130e;
-    --bg-card: #2a150f;
-    --bg-card-hover: #311a12;
-    --bg-elevated: #381d15;
-    --text-primary: #ffe8d8;
-    --text-secondary: #f2c9a7;
-    --text-muted: #c28f73;
-    --accent-1: #e85d04;
-    --accent-2: #9d0208;
-    --accent-3: #ffba08;
-    --gradient-sakura: linear-gradient(135deg, #9d0208 0%, #e85d04 100%);
+    --bg-primary: #18100c;
+    --bg-secondary: #211610;
+    --bg-card: rgba(45, 28, 20, 0.85);
+    --bg-card-hover: rgba(55, 35, 25, 0.9);
+    --bg-elevated: rgba(60, 38, 28, 0.92);
+    --text-primary: #fff5eb;
+    --text-secondary: #f5d4b8;
+    --text-muted: #c9a080;
+    --accent-1: #ff6b35;
+    --accent-2: #dc143c;
+    --accent-3: #ffc857;
+    --gradient-sakura: linear-gradient(135deg, #dc143c 0%, #ff6b35 50%, #ffc857 100%);
 }
 
 /* Kintsugi Gold */
@@ -510,95 +510,111 @@ body {
 }
 
 /* ============================================
-   MOMIJI AUTUMN THEME - Japanese Maple Forest
+   MOMIJI AUTUMN THEME - Golden Hour Maple Garden
+   A serene Japanese autumn scene at golden hour
    ============================================ */
 .theme-momiji .gradient-overlay {
     background:
-        /* Golden hour sun glow */
-        radial-gradient(ellipse at 80% 15%, rgba(255, 200, 100, 0.20) 0%, transparent 40%),
-        radial-gradient(ellipse at 85% 20%, rgba(255, 170, 60, 0.15) 0%, transparent 35%),
-        /* Warm ambient autumn light */
-        radial-gradient(ellipse at 20% 30%, rgba(255, 120, 50, 0.12) 0%, transparent 45%),
-        radial-gradient(ellipse at 60% 60%, rgba(200, 80, 30, 0.10) 0%, transparent 50%),
-        radial-gradient(ellipse at 30% 80%, rgba(180, 60, 20, 0.08) 0%, transparent 40%),
-        /* Deep autumn twilight gradient */
-        linear-gradient(180deg, 
-            rgba(45, 20, 15, 0.92) 0%, 
-            rgba(55, 25, 18, 0.90) 25%,
-            rgba(40, 18, 12, 0.94) 50%,
-            rgba(30, 12, 8, 0.96) 75%,
-            rgba(20, 8, 5, 0.98) 100%);
+        /* Ethereal golden hour sun - warm and dreamy */
+        radial-gradient(ellipse 120% 80% at 85% 10%, rgba(255, 180, 80, 0.35) 0%, rgba(255, 140, 50, 0.15) 30%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 90% 5%, rgba(255, 220, 140, 0.25) 0%, transparent 50%),
+        /* Warm ambient light bleeding through leaves */
+        radial-gradient(ellipse at 15% 25%, rgba(200, 80, 40, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 70%, rgba(180, 60, 30, 0.12) 0%, transparent 45%),
+        /* Soft crimson undertones */
+        radial-gradient(ellipse at 40% 90%, rgba(150, 30, 50, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 40%, rgba(120, 40, 30, 0.08) 0%, transparent 40%),
+        /* Rich autumn twilight base - deep burgundy to near black */
+        linear-gradient(175deg, 
+            rgba(50, 22, 18, 0.94) 0%, 
+            rgba(38, 16, 14, 0.96) 20%,
+            rgba(30, 12, 10, 0.97) 45%,
+            rgba(22, 10, 8, 0.98) 70%,
+            rgba(15, 6, 5, 0.99) 100%);
 }
 
-/* Maple tree branches - left side */
+/* Elegant maple branch - left side with delicate leaves */
 .theme-momiji .bg-animation::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: -5%;
-    width: 55%;
-    height: 100%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 800' preserveAspectRatio='xMinYMin slice'%3E%3Cdefs%3E%3ClinearGradient id='branch' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232a1810'/%3E%3Cstop offset='50%25' stop-color='%23382015'/%3E%3Cstop offset='100%25' stop-color='%231e120c'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafRed' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23c41e3a'/%3E%3Cstop offset='50%25' stop-color='%23a01525'/%3E%3Cstop offset='100%25' stop-color='%23801020'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafOrange' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23e85d04'/%3E%3Cstop offset='50%25' stop-color='%23dc4c04'/%3E%3Cstop offset='100%25' stop-color='%23c43c02'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafGold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffba08'/%3E%3Cstop offset='50%25' stop-color='%23f0a000'/%3E%3Cstop offset='100%25' stop-color='%23d89000'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafCrimson' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%239d0208'/%3E%3Cstop offset='50%25' stop-color='%237a0106'/%3E%3Cstop offset='100%25' stop-color='%23600105'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branch)' stroke-linecap='round'%3E%3C!-- Main branch from top left --%3E%3Cpath stroke-width='14' d='M-30 -20 Q40 60 80 120 Q120 180 150 250 Q180 320 200 400'/%3E%3Cpath stroke-width='10' d='M80 120 Q130 140 180 130 Q230 120 290 140 Q350 160 400 150'/%3E%3Cpath stroke-width='7' d='M150 250 Q200 240 250 260 Q300 280 360 270 Q400 262 440 280'/%3E%3Cpath stroke-width='5' d='M180 130 Q210 100 250 110 Q290 120 330 100'/%3E%3Cpath stroke-width='5' d='M200 400 Q240 420 290 410 Q340 400 380 420'/%3E%3Cpath stroke-width='4' d='M290 140 Q320 160 360 150 Q400 140 430 160'/%3E%3Cpath stroke-width='4' d='M250 260 Q280 240 320 250'/%3E%3Cpath stroke-width='3' d='M360 270 Q390 250 420 260'/%3E%3Cpath stroke-width='3' d='M290 410 Q320 430 360 420'/%3E%3C/g%3E%3C!-- Maple leaf clusters --%3E%3Cg%3E%3C!-- Red maple leaves --%3E%3Cpath fill='url(%23leafRed)' opacity='0.9' d='M400 150 l8-12 l3 8 l10-5 l-4 10 l12 2 l-10 6 l6 10 l-10-4 l-2 12 l-6-10 l-8 8 l2-12 l-12 0 l8-8 l-8-8 Z'/%3E%3Cpath fill='url(%23leafRed)' opacity='0.85' d='M330 100 l6-10 l2 7 l8-4 l-3 8 l10 2 l-8 5 l5 8 l-8-3 l-2 10 l-5-8 l-6 6 l2-10 l-10 0 l6-6 l-6-6 Z'/%3E%3Cpath fill='url(%23leafRed)' opacity='0.8' d='M320 250 l7-11 l2 7 l9-4 l-3 9 l11 2 l-9 5 l5 9 l-9-3 l-2 11 l-5-9 l-7 7 l2-11 l-11 0 l7-7 l-7-7 Z'/%3E%3C!-- Orange maple leaves --%3E%3Cpath fill='url(%23leafOrange)' opacity='0.9' d='M430 160 l7-11 l2 7 l9-4 l-3 9 l11 1 l-9 5 l5 9 l-9-3 l-1 11 l-5-9 l-7 7 l1-11 l-11 0 l7-7 l-7-6 Z'/%3E%3Cpath fill='url(%23leafOrange)' opacity='0.85' d='M440 280 l6-10 l2 6 l8-3 l-3 8 l10 1 l-8 4 l4 8 l-8-3 l-1 10 l-4-8 l-6 6 l1-10 l-10 0 l6-6 l-6-5 Z'/%3E%3Cpath fill='url(%23leafOrange)' opacity='0.8' d='M360 150 l5-8 l2 5 l7-3 l-2 7 l8 1 l-7 4 l4 7 l-7-2 l-1 8 l-4-7 l-5 5 l1-8 l-8 0 l5-5 l-5-5 Z'/%3E%3Cpath fill='url(%23leafOrange)' opacity='0.75' d='M380 420 l6-10 l2 6 l8-3 l-3 8 l10 1 l-8 4 l4 8 l-8-3 l-1 10 l-4-8 l-6 6 l1-10 l-10 0 l6-6 l-6-5 Z'/%3E%3C!-- Gold maple leaves --%3E%3Cpath fill='url(%23leafGold)' opacity='0.9' d='M250 110 l6-10 l2 7 l8-4 l-3 8 l10 2 l-8 5 l5 8 l-8-3 l-2 10 l-5-8 l-6 6 l2-10 l-10 0 l6-6 l-6-6 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.85' d='M360 270 l5-9 l2 6 l7-3 l-3 7 l9 1 l-7 4 l4 8 l-7-3 l-1 9 l-4-7 l-6 6 l1-9 l-9 0 l6-5 l-5-6 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.8' d='M420 260 l5-8 l2 5 l6-3 l-2 7 l8 1 l-6 4 l3 7 l-6-2 l-1 8 l-3-6 l-5 5 l1-8 l-8 0 l5-5 l-5-5 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.75' d='M290 140 l4-7 l1 5 l6-2 l-2 6 l7 1 l-5 3 l3 6 l-6-2 l-1 7 l-3-5 l-4 4 l1-7 l-7 0 l4-4 l-4-4 Z'/%3E%3C!-- Crimson accent leaves --%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.85' d='M360 420 l5-9 l2 6 l7-3 l-2 7 l9 1 l-7 4 l4 8 l-7-3 l-1 9 l-4-7 l-5 5 l1-9 l-9 0 l5-5 l-5-5 Z'/%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.8' d='M290 410 l4-7 l2 5 l6-3 l-2 6 l7 1 l-5 3 l3 6 l-6-2 l-1 7 l-3-5 l-4 4 l1-7 l-7 0 l4-4 l-4-4 Z'/%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.75' d='M180 130 l5-8 l2 5 l6-3 l-2 6 l8 1 l-6 4 l4 7 l-6-2 l-1 8 l-4-6 l-5 5 l1-8 l-8 0 l5-5 l-5-5 Z'/%3E%3C/g%3E%3C/svg%3E");
+    top: -5%;
+    left: -8%;
+    width: 60%;
+    height: 110%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 900' preserveAspectRatio='xMinYMin slice'%3E%3Cdefs%3E%3ClinearGradient id='branchL' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23201510'/%3E%3Cstop offset='40%25' stop-color='%232d1c15'/%3E%3Cstop offset='100%25' stop-color='%23181010'/%3E%3C/linearGradient%3E%3CradialGradient id='leafCrimson' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23dc143c'/%3E%3Cstop offset='60%25' stop-color='%23b8102e'/%3E%3Cstop offset='100%25' stop-color='%238b0a24'/%3E%3C/radialGradient%3E%3CradialGradient id='leafFlame' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ff6b35'/%3E%3Cstop offset='60%25' stop-color='%23e85d04'/%3E%3Cstop offset='100%25' stop-color='%23c44d00'/%3E%3C/radialGradient%3E%3CradialGradient id='leafGold' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ffc857'/%3E%3Cstop offset='60%25' stop-color='%23f4a61c'/%3E%3Cstop offset='100%25' stop-color='%23d4890a'/%3E%3C/radialGradient%3E%3CradialGradient id='leafWine' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23a02040'/%3E%3Cstop offset='60%25' stop-color='%237d1830'/%3E%3Cstop offset='100%25' stop-color='%235a1020'/%3E%3C/radialGradient%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='1' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branchL)' stroke-linecap='round'%3E%3Cpath stroke-width='20' d='M-40 -30 C30 80 50 180 70 300 S100 500 90 650'/%3E%3Cpath stroke-width='14' d='M30 120 C80 110 140 130 220 110 S340 100 420 130'/%3E%3Cpath stroke-width='10' d='M60 260 C120 250 180 270 260 250 S360 240 450 270'/%3E%3Cpath stroke-width='8' d='M75 400 C130 390 190 420 270 400 S360 385 430 410'/%3E%3Cpath stroke-width='6' d='M85 540 C140 530 200 550 280 535'/%3E%3Cpath stroke-width='5' d='M140 130 Q180 100 230 115'/%3E%3Cpath stroke-width='4' d='M200 110 Q240 80 290 95'/%3E%3Cpath stroke-width='4' d='M180 270 Q220 245 270 255'/%3E%3Cpath stroke-width='3' d='M290 250 Q330 225 370 240'/%3E%3Cpath stroke-width='3' d='M190 420 Q230 395 280 405'/%3E%3C/g%3E%3Cg filter='url(%23glow)'%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.95' transform='translate(420,130) rotate(15) scale(1.3)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlame)' opacity='0.9' transform='translate(380,105) rotate(-10) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.92' transform='translate(290,95) rotate(5) scale(1.2)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.88' transform='translate(230,115) rotate(-15) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafWine)' opacity='0.85' transform='translate(450,270) rotate(20) scale(1.15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlame)' opacity='0.9' transform='translate(370,240) rotate(-5) scale(1.25)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.87' transform='translate(270,255) rotate(10) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.92' transform='translate(180,270) rotate(-20) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafWine)' opacity='0.88' transform='translate(430,410) rotate(8) scale(1.2)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlame)' opacity='0.85' transform='translate(340,395) rotate(-12) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGold)' opacity='0.9' transform='translate(280,405) rotate(25) scale(1.15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimson)' opacity='0.86' transform='translate(190,420) rotate(-8) scale(0.95)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafWine)' opacity='0.82' transform='translate(280,535) rotate(15) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlame)' opacity='0.88' transform='translate(200,550) rotate(-18) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left top;
-    opacity: 0.9;
+    opacity: 0.92;
     pointer-events: none;
     z-index: 1;
 }
 
-/* Maple tree branches - right side */
+/* Elegant maple branch - right side mirrored */
 .theme-momiji .bg-animation::after {
     content: '';
     position: fixed;
-    top: 0;
-    right: -5%;
-    width: 50%;
-    height: 90%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 720' preserveAspectRatio='xMaxYMin slice'%3E%3Cdefs%3E%3ClinearGradient id='branchR' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232a1810'/%3E%3Cstop offset='50%25' stop-color='%23351a12'/%3E%3Cstop offset='100%25' stop-color='%231e120c'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafRedR' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23b81c35'/%3E%3Cstop offset='50%25' stop-color='%23951222'/%3E%3Cstop offset='100%25' stop-color='%23750e1a'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafOrangeR' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f07020'/%3E%3Cstop offset='50%25' stop-color='%23dc5a10'/%3E%3Cstop offset='100%25' stop-color='%23c04a08'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafGoldR' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffc020'/%3E%3Cstop offset='50%25' stop-color='%23e8a810'/%3E%3Cstop offset='100%25' stop-color='%23d09000'/%3E%3C/linearGradient%3E%3ClinearGradient id='leafBurnt' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a04010'/%3E%3Cstop offset='50%25' stop-color='%23803008'/%3E%3Cstop offset='100%25' stop-color='%23602505'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branchR)' stroke-linecap='round'%3E%3C!-- Main branch from top right --%3E%3Cpath stroke-width='12' d='M430 -20 Q380 50 340 110 Q300 170 270 230 Q240 290 230 360'/%3E%3Cpath stroke-width='9' d='M340 110 Q290 100 240 120 Q190 140 140 130 Q90 120 40 140'/%3E%3Cpath stroke-width='6' d='M270 230 Q220 220 170 240 Q120 260 70 250 Q30 242 -10 260'/%3E%3Cpath stroke-width='5' d='M240 120 Q210 90 170 100 Q130 110 90 90'/%3E%3Cpath stroke-width='4' d='M230 360 Q190 350 150 370 Q110 390 60 380'/%3E%3Cpath stroke-width='4' d='M140 130 Q110 150 70 140 Q30 130 -10 150'/%3E%3Cpath stroke-width='3' d='M170 240 Q140 220 100 230'/%3E%3Cpath stroke-width='3' d='M70 250 Q40 230 10 240'/%3E%3C/g%3E%3C!-- Maple leaf clusters --%3E%3Cg%3E%3C!-- Red leaves --%3E%3Cpath fill='url(%23leafRedR)' opacity='0.9' d='M40 140 l-8-12 l-3 8 l-10-5 l4 10 l-12 2 l10 6 l-6 10 l10-4 l2 12 l6-10 l8 8 l-2-12 l12 0 l-8-8 l8-8 Z'/%3E%3Cpath fill='url(%23leafRedR)' opacity='0.85' d='M90 90 l-6-10 l-2 7 l-8-4 l3 8 l-10 2 l8 5 l-5 8 l8-3 l2 10 l5-8 l6 6 l-2-10 l10 0 l-6-6 l6-6 Z'/%3E%3Cpath fill='url(%23leafRedR)' opacity='0.8' d='M100 230 l-7-11 l-2 7 l-9-4 l3 9 l-11 2 l9 5 l-5 9 l9-3 l2 11 l5-9 l7 7 l-2-11 l11 0 l-7-7 l7-7 Z'/%3E%3C!-- Orange leaves --%3E%3Cpath fill='url(%23leafOrangeR)' opacity='0.9' d='M-10 150 l-7-11 l-2 7 l-9-4 l3 9 l-11 1 l9 5 l-5 9 l9-3 l1 11 l5-9 l7 7 l-1-11 l11 0 l-7-7 l7-6 Z'/%3E%3Cpath fill='url(%23leafOrangeR)' opacity='0.85' d='M-10 260 l-6-10 l-2 6 l-8-3 l3 8 l-10 1 l8 4 l-4 8 l8-3 l1 10 l4-8 l6 6 l-1-10 l10 0 l-6-6 l6-5 Z'/%3E%3Cpath fill='url(%23leafOrangeR)' opacity='0.8' d='M70 140 l-5-8 l-2 5 l-7-3 l2 7 l-8 1 l7 4 l-4 7 l7-2 l1 8 l4-7 l5 5 l-1-8 l8 0 l-5-5 l5-5 Z'/%3E%3Cpath fill='url(%23leafOrangeR)' opacity='0.75' d='M60 380 l-6-10 l-2 6 l-8-3 l3 8 l-10 1 l8 4 l-4 8 l8-3 l1 10 l4-8 l6 6 l-1-10 l10 0 l-6-6 l6-5 Z'/%3E%3C!-- Gold leaves --%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.9' d='M170 100 l-6-10 l-2 7 l-8-4 l3 8 l-10 2 l8 5 l-5 8 l8-3 l2 10 l5-8 l6 6 l-2-10 l10 0 l-6-6 l6-6 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.85' d='M70 250 l-5-9 l-2 6 l-7-3 l3 7 l-9 1 l7 4 l-4 8 l7-3 l1 9 l4-7 l6 6 l-1-9 l9 0 l-6-5 l5-6 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.8' d='M10 240 l-5-8 l-2 5 l-6-3 l2 7 l-8 1 l6 4 l-3 7 l6-2 l1 8 l3-6 l5 5 l-1-8 l8 0 l-5-5 l5-5 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.75' d='M140 130 l-4-7 l-1 5 l-6-2 l2 6 l-7 1 l5 3 l-3 6 l6-2 l1 7 l3-5 l4 4 l-1-7 l7 0 l-4-4 l4-4 Z'/%3E%3C!-- Burnt sienna accent leaves --%3E%3Cpath fill='url(%23leafBurnt)' opacity='0.85' d='M150 370 l-5-9 l-2 6 l-7-3 l2 7 l-9 1 l7 4 l-4 8 l7-3 l1 9 l4-7 l5 5 l-1-9 l9 0 l-5-5 l5-5 Z'/%3E%3Cpath fill='url(%23leafBurnt)' opacity='0.8' d='M240 120 l-4-7 l-2 5 l-6-3 l2 6 l-7 1 l5 3 l-3 6 l6-2 l1 7 l3-5 l4 4 l-1-7 l7 0 l-4-4 l4-4 Z'/%3E%3C/g%3E%3C/svg%3E");
+    top: -5%;
+    right: -8%;
+    width: 55%;
+    height: 105%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 900' preserveAspectRatio='xMaxYMin slice'%3E%3Cdefs%3E%3ClinearGradient id='branchR' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23201510'/%3E%3Cstop offset='40%25' stop-color='%232a1a14'/%3E%3Cstop offset='100%25' stop-color='%23151010'/%3E%3C/linearGradient%3E%3CradialGradient id='leafCrimsonR' cx='70%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23c93545'/%3E%3Cstop offset='60%25' stop-color='%23a52030'/%3E%3Cstop offset='100%25' stop-color='%23801525'/%3E%3C/radialGradient%3E%3CradialGradient id='leafFlameR' cx='70%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ff7040'/%3E%3Cstop offset='60%25' stop-color='%23e05510'/%3E%3Cstop offset='100%25' stop-color='%23b54008'/%3E%3C/radialGradient%3E%3CradialGradient id='leafGoldR' cx='70%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ffd060'/%3E%3Cstop offset='60%25' stop-color='%23e8a820'/%3E%3Cstop offset='100%25' stop-color='%23c08510'/%3E%3C/radialGradient%3E%3CradialGradient id='leafBurntR' cx='70%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23c05020'/%3E%3Cstop offset='60%25' stop-color='%23953815'/%3E%3Cstop offset='100%25' stop-color='%236a280d'/%3E%3C/radialGradient%3E%3Cfilter id='glowR'%3E%3CfeGaussianBlur stdDeviation='1' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23branchR)' stroke-linecap='round'%3E%3Cpath stroke-width='18' d='M540 -30 C480 70 450 170 430 290 S410 490 420 640'/%3E%3Cpath stroke-width='12' d='M470 100 C420 95 350 110 270 95 S150 85 70 110'/%3E%3Cpath stroke-width='9' d='M445 250 C380 240 310 260 230 245 S130 235 40 260'/%3E%3Cpath stroke-width='7' d='M430 390 C370 380 300 405 220 390 S130 380 60 400'/%3E%3Cpath stroke-width='5' d='M420 530 C360 520 290 540 210 528'/%3E%3Cpath stroke-width='4' d='M360 110 Q320 85 270 98'/%3E%3Cpath stroke-width='4' d='M300 95 Q260 70 210 82'/%3E%3Cpath stroke-width='3' d='M320 260 Q280 240 230 250'/%3E%3Cpath stroke-width='3' d='M210 245 Q170 225 130 235'/%3E%3Cpath stroke-width='3' d='M310 405 Q270 385 220 395'/%3E%3C/g%3E%3Cg filter='url(%23glowR)'%3E%3Cpath fill='url(%23leafCrimsonR)' opacity='0.94' transform='translate(70,110) rotate(-15) scale(1.25)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlameR)' opacity='0.9' transform='translate(120,88) rotate(10) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.92' transform='translate(210,82) rotate(-5) scale(1.15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafBurntR)' opacity='0.87' transform='translate(270,98) rotate(18) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimsonR)' opacity='0.88' transform='translate(40,260) rotate(-20) scale(1.2)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlameR)' opacity='0.91' transform='translate(130,235) rotate(5) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.86' transform='translate(230,250) rotate(-12) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafBurntR)' opacity='0.9' transform='translate(320,260) rotate(22) scale(1.15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimsonR)' opacity='0.85' transform='translate(60,400) rotate(-8) scale(1.15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlameR)' opacity='0.88' transform='translate(160,385) rotate(15) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafGoldR)' opacity='0.92' transform='translate(220,395) rotate(-25) scale(1.2)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafBurntR)' opacity='0.84' transform='translate(310,405) rotate(8) scale(0.95)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafCrimsonR)' opacity='0.86' transform='translate(210,528) rotate(-15) scale(1.1)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3Cpath fill='url(%23leafFlameR)' opacity='0.89' transform='translate(290,540) rotate(20) scale(1.0)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right top;
-    opacity: 0.85;
+    opacity: 0.88;
     pointer-events: none;
     z-index: 1;
 }
 
-/* Falling maple leaves - sparse and gentle */
+/* Drifting maple leaves - graceful and varied */
 .theme-momiji .gradient-overlay::before {
     content: '';
     position: fixed;
     inset: 0;
     background: 
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c41e3a' opacity='0.7' d='M50 45 l4-7 l1 5 l5-2 l-2 5 l6 1 l-5 3 l3 5 l-5-2 l-1 6 l-3-5 l-4 4 l1-6 l-6 0 l4-4 l-4-4 Z'/%3E%3C/svg%3E"),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23e85d04' opacity='0.55' d='M50 45 l3-6 l1 4 l4-2 l-1 4 l5 1 l-4 2 l2 4 l-4-1 l-1 5 l-2-4 l-3 3 l1-5 l-5 0 l3-3 l-3-3 Z'/%3E%3C/svg%3E");
-    background-size: 280px 320px, 350px 400px;
-    background-position: 0 0, 150px 80px;
-    animation: mapleLeafFall 50s linear infinite;
-    opacity: 0.75;
+        /* Crimson leaves - larger, slower */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3CradialGradient id='lf1' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23e03050'/%3E%3Cstop offset='100%25' stop-color='%23901830'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath fill='url(%23lf1)' opacity='0.8' transform='translate(60,60) rotate(25)' d='M0-15 L4-6 L13-8 L6 0 L13 8 L4 6 L0 15 L-4 6 L-13 8 L-6 0 L-13-8 L-4-6 Z'/%3E%3C/svg%3E"),
+        /* Gold leaves - medium, varied */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='lf2' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ffc040'/%3E%3Cstop offset='100%25' stop-color='%23c08010'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath fill='url(%23lf2)' opacity='0.7' transform='translate(50,50) rotate(-15)' d='M0-12 L3-5 L10-6 L5 0 L10 6 L3 5 L0 12 L-3 5 L-10 6 L-5 0 L-10-6 L-3-5 Z'/%3E%3C/svg%3E"),
+        /* Orange leaves - smaller, faster */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3CradialGradient id='lf3' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ff6530'/%3E%3Cstop offset='100%25' stop-color='%23c04010'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath fill='url(%23lf3)' opacity='0.65' transform='translate(40,40) rotate(40)' d='M0-10 L2-4 L8-5 L4 0 L8 5 L2 4 L0 10 L-2 4 L-8 5 L-4 0 L-8-5 L-2-4 Z'/%3E%3C/svg%3E"),
+        /* Wine leaves - accent */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Cdefs%3E%3CradialGradient id='lf4' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23a03045'/%3E%3Cstop offset='100%25' stop-color='%23601525'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath fill='url(%23lf4)' opacity='0.6' transform='translate(45,45) rotate(-30)' d='M0-11 L3-5 L9-5 L5 0 L9 5 L3 5 L0 11 L-3 5 L-9 5 L-5 0 L-9-5 L-3-5 Z'/%3E%3C/svg%3E");
+    background-size: 400px 450px, 320px 380px, 250px 300px, 350px 420px;
+    background-position: 0 -50px, 180px 30px, 80px -20px, 250px 60px;
+    animation: momijiDrift 65s linear infinite;
+    opacity: 0.85;
     pointer-events: none;
     z-index: 2;
 }
 
-/* Warm ember glow and sun rays */
+/* Golden hour light rays and atmospheric glow */
 .theme-momiji .gradient-overlay::after {
     content: '';
     position: fixed;
     inset: 0;
     background:
-        /* Sun rays from top right */
-        linear-gradient(225deg, rgba(255, 200, 100, 0.08) 0%, transparent 40%),
-        linear-gradient(230deg, rgba(255, 180, 80, 0.06) 0%, transparent 35%),
-        linear-gradient(220deg, rgba(255, 160, 60, 0.04) 0%, transparent 30%),
-        /* Floating embers */
-        radial-gradient(circle at 20% 70%, rgba(255, 120, 40, 0.3) 0%, rgba(255, 120, 40, 0.3) 2px, transparent 3px),
-        radial-gradient(circle at 45% 50%, rgba(255, 100, 30, 0.25) 0%, rgba(255, 100, 30, 0.25) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 70% 80%, rgba(255, 140, 50, 0.3) 0%, rgba(255, 140, 50, 0.3) 2px, transparent 3px),
-        radial-gradient(circle at 30% 30%, rgba(255, 160, 60, 0.2) 0%, rgba(255, 160, 60, 0.2) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 80% 40%, rgba(255, 130, 45, 0.25) 0%, rgba(255, 130, 45, 0.25) 2px, transparent 3px),
-        radial-gradient(circle at 55% 85%, rgba(255, 110, 35, 0.3) 0%, rgba(255, 110, 35, 0.3) 1.5px, transparent 2.5px);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 300px 280px, 350px 320px, 280px 300px, 320px 280px, 340px 310px, 290px 330px;
-    animation: emberFloat 20s ease-in-out infinite;
+        /* Dramatic sun rays streaming through leaves */
+        linear-gradient(215deg, rgba(255, 210, 130, 0.18) 0%, rgba(255, 180, 80, 0.08) 20%, transparent 45%),
+        linear-gradient(225deg, rgba(255, 190, 100, 0.12) 0%, rgba(255, 160, 60, 0.05) 25%, transparent 50%),
+        linear-gradient(235deg, rgba(255, 170, 80, 0.08) 0%, transparent 35%),
+        /* Warm ambient haze */
+        radial-gradient(ellipse 150% 100% at 80% 0%, rgba(255, 200, 120, 0.12) 0%, transparent 50%),
+        /* Floating dust particles in light */
+        radial-gradient(circle at 75% 15%, rgba(255, 220, 180, 0.5) 0%, rgba(255, 220, 180, 0.5) 1px, transparent 2px),
+        radial-gradient(circle at 82% 25%, rgba(255, 200, 150, 0.4) 0%, rgba(255, 200, 150, 0.4) 1.5px, transparent 3px),
+        radial-gradient(circle at 70% 10%, rgba(255, 230, 190, 0.45) 0%, rgba(255, 230, 190, 0.45) 1px, transparent 2px),
+        radial-gradient(circle at 88% 20%, rgba(255, 210, 160, 0.35) 0%, rgba(255, 210, 160, 0.35) 2px, transparent 3px),
+        radial-gradient(circle at 65% 18%, rgba(255, 240, 200, 0.4) 0%, rgba(255, 240, 200, 0.4) 1px, transparent 2px),
+        /* Subtle warm embers drifting */
+        radial-gradient(circle at 25% 75%, rgba(255, 130, 50, 0.35) 0%, rgba(255, 130, 50, 0.35) 2px, transparent 4px),
+        radial-gradient(circle at 50% 60%, rgba(255, 150, 70, 0.3) 0%, rgba(255, 150, 70, 0.3) 1.5px, transparent 3px),
+        radial-gradient(circle at 35% 45%, rgba(255, 170, 90, 0.25) 0%, rgba(255, 170, 90, 0.25) 2px, transparent 4px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 
+        200px 180px, 250px 220px, 180px 200px, 220px 240px, 190px 210px,
+        280px 300px, 320px 280px, 260px 320px;
+    animation: goldenHourGlow 25s ease-in-out infinite;
     pointer-events: none;
     z-index: 3;
 }
@@ -878,6 +894,35 @@ body {
 }
 
 /* Momiji Autumn animations */
+@keyframes momijiDrift {
+    0% {
+        background-position: 
+            0 -100px, 
+            180px -80px,
+            80px -60px,
+            250px -120px;
+    }
+    100% {
+        background-position: 
+            0 calc(100vh + 100px), 
+            180px calc(100vh + 80px),
+            80px calc(100vh + 60px),
+            250px calc(100vh + 120px);
+    }
+}
+
+@keyframes goldenHourGlow {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% {
+        opacity: 0.92;
+        filter: brightness(1.05);
+    }
+}
+
+/* Legacy animation name for compatibility */
 @keyframes mapleLeafFall {
     0% {
         background-position: 
